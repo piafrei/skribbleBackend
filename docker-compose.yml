@@ -29,7 +29,7 @@ services:
             mongo:
               condition: service_started
         ports:
-            - 8080:8080
+            - 8085:8080
             - 8000:8000
         links:
             - mongo
