@@ -1,6 +1,8 @@
 package com.montagsmaler.backend.security;
 
+import com.montagsmaler.backend.UserManagement.UserDetailServiceImpl;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +18,7 @@ import javax.annotation.Resource;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Resource
+    @Lazy
     private UserDetailServiceImpl userDetailService;
 
     @Resource
@@ -25,8 +28,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/user/authenticate").permitAll()
                 .antMatchers("/user/signup").permitAll()
+                .antMatchers("/user/authenticate").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(requestSecurityFilter, UsernamePasswordAuthenticationFilter.class);

@@ -1,4 +1,4 @@
-package com.montagsmaler.backend.security;
+package com.montagsmaler.backend.UserManagement;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 

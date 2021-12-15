@@ -1,6 +1,7 @@
 package com.montagsmaler.backend.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.montagsmaler.backend.UserManagement.UserDetailServiceImpl;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +9,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,10 +18,11 @@ import java.io.IOException;
 
 @Component
 public class RequestSecurityFilter extends OncePerRequestFilter {
-    @Autowired
+    @Resource
+    @Lazy
     private UserDetailServiceImpl userDetailService;
 
-    @Autowired
+    @Resource
     private JwtService jwtService;
 
     @Override
