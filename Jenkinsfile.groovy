@@ -1,6 +1,6 @@
 node {
     checkout scm
-    /* .. snip .. */
+
     stages {
         stage('Build') {
             steps {
