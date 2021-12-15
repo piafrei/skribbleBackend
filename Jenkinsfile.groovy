@@ -1,11 +1,8 @@
-node {
-    checkout scm
+pipeline {
 
     stages {
-        stage('Build') {
-            steps {
-                echo 'Building..'
-            }
+        stage('Checkout scm') {
+            checkout scm
         }
         stage('Test') {
             steps {
