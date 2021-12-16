@@ -6,6 +6,6 @@ node {
         sh "mvn clean install"
     }
     stage('Start docker') {
-        sh "sudo docker-compose build && sudo docker-compose up"
+        sh "docker-compose build && docker-compose up"
     }
 }
