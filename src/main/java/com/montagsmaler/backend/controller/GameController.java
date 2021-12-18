@@ -34,16 +34,17 @@ public class GameController {
         return action;
     }
 
-    @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public Greeting greeting(Message message) throws Exception {
+    @MessageMapping("/chat")
+    @SendTo("/topic/messages")
+    public Greeting greeting(String message) throws Exception {
         Thread.sleep(1000); // simulated delay
-        return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
+        //return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
+        return new Greeting("Hello" + message);
     }
 
-    @MessageMapping("/game/{gameid}")
+/*    @MessageMapping("/game/{gameid}")
     @SendTo("/channel/game/{gameid}}")
     public Greeting simple(@DestinationVariable String gameid, Action message) {
-        return new Greeting("Hello, " + HtmlUtils.htmlEscape("heo!"));
-    }
+        return new Greeting("Hello, received" + HtmlUtils.htmlEscape("actiontype: " + message.getActionType()));
+    }*/
 }
