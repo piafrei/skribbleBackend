@@ -24,17 +24,11 @@ public class GameController {
 
     @PostMapping(value="/structure")
     public Action structureTest(@RequestBody Action action) {
-        Boolean isAChat = action instanceof ChatAction;
-        Boolean isADraw = action instanceof DrawAction;
-        Boolean isAActionParam = action != null;
-
-        System.out.println("Is a car" + isAChat);
-        System.out.println("Is a DrawAction" + isADraw);
-        System.out.println("Is a actionparam" + isAActionParam);
-        System.out.println("Action1" + action.getActionType());
+//        Boolean isAChat = action instanceof ChatAction;
+//        Boolean isADraw = action instanceof DrawAction;
+//        Boolean isAActionParam = action != null;
 
         ActionStrategy strategy = strategyFactory.findActionStrategyByActionName(action.getActionType());
-        System.out.print("Strategyy" +strategy);
         strategy.doStuff();
 
         return action;
