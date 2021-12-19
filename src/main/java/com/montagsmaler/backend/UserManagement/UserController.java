@@ -28,7 +28,7 @@ import static org.springframework.http.ResponseEntity.status;
 @RequestMapping(UserController.ROOT_MAPPING)
 @EnableAutoConfiguration
 public class UserController {
-    static final String ROOT_MAPPING = "/user";
+    static final String ROOT_MAPPING = "/backend/user";
     @Resource
     private AuthenticationManager authenticationManager;
 

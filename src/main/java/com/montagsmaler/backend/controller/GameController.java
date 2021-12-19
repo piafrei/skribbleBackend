@@ -17,12 +17,12 @@ public class GameController {
     @Autowired
     private ActionStrategyFactory strategyFactory;
 
-    @RequestMapping(value="/sayhello")
+    @RequestMapping(value="/backend/sayhello")
     public String sayHello() {
         return "Hi!";
     }
 
-    @PostMapping(value="/structure")
+    @PostMapping(value="/backend/structure")
     public Action structureTest(@RequestBody Action action) {
 //        Boolean isAChat = action instanceof ChatAction;
 //        Boolean isADraw = action instanceof DrawAction;
