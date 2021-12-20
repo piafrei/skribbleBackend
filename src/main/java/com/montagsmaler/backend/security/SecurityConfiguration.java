@@ -28,8 +28,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/user/signup").permitAll()
-                .antMatchers("/user/authenticate").permitAll()
+                .antMatchers("/backend/user/signup").permitAll()
+                .antMatchers("/backend/user/authenticate").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(requestSecurityFilter, UsernamePasswordAuthenticationFilter.class);
