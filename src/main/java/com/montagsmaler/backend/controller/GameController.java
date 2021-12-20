@@ -4,6 +4,7 @@ import com.montagsmaler.backend.controller.ActionInput.ChatAction;
 import com.montagsmaler.backend.controller.ActionInput.DrawAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,8 @@ import org.springframework.messaging.handler.annotation.SendTo;
 public class GameController {
     @Autowired
     private ActionStrategyFactory strategyFactory;
+
+    private SimpMessagingTemplate template;
 
     @RequestMapping(value="/backend/sayhello")
     public String sayHello() {
@@ -36,15 +39,16 @@ public class GameController {
 
     @MessageMapping("/chat")
     @SendTo("/topic/messages")
-    public Greeting greeting(String message) throws Exception {
-        Thread.sleep(1000); // simulated delay
+    public void greeting(String message) {
         //return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
-        return new Greeting("Hello" + message);
+        System.out.println("habikuku");
+        this.template.convertAndSend("yay");
+        //return new Greeting("Hello" + message);
     }
 
-/*    @MessageMapping("/game/{gameid}")
-    @SendTo("/channel/game/{gameid}}")
-    public Greeting simple(@DestinationVariable String gameid, Action message) {
-        return new Greeting("Hello, received" + HtmlUtils.htmlEscape("actiontype: " + message.getActionType()));
-    }*/
+    @MessageMapping("/game/{fleetId}/driver/{driverId}")
+    @SendTo("/app/fleet/{fleetId}")
+    public String simple(@DestinationVariable String fleetId, @DestinationVariable String driverId) {
+        return "Response: " + fleetId + driverId;
+    }
 }
