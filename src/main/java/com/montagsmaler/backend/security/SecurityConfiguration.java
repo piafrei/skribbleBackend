@@ -33,7 +33,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
+        http.cors().configurationSource(request -> {
+                var cors = new CorsConfiguration();
+                cors.setAllowedOrigins(Arrays.asList("*"));
+                cors.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE", "OPTIONS"));
+                cors.setAllowedHeaders(Arrays.asList("*"));
+                return cors;
+                }).and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/backend/user/signup").permitAll()
                 .antMatchers("/backend/user/authenticate").permitAll()
