@@ -15,8 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
+import org.springframework.web.cors.CorsConfiguration;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -29,7 +31,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
+        http.cors().configurationSource(request -> {
+                    var cors = new CorsConfiguration();
+                    cors.setAllowedOrigins(Arrays.asList("https://p-frei.de", "http://127.0.0.1","62.216.209.26","62.216.209.26:80","localhost"));
+                    cors.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE", "OPTIONS"));
+                    cors.setAllowedHeaders(Arrays.asList("*"));
+                    return cors;
+                }).and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/backend/user/signup").permitAll()
                 .antMatchers("/backend/user/authenticate").permitAll()
