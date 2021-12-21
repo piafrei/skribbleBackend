@@ -5,10 +5,7 @@ import com.montagsmaler.backend.controller.ActionInput.DrawAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -37,6 +34,7 @@ public class GameController {
         return action;
     }
 
+    @CrossOrigin
     @MessageMapping("/chat")
     @SendTo("/topic/messages")
     public void greeting(String message) {
