@@ -41,15 +41,13 @@ public class UserController {
     @PostMapping(value="/signup")
     public ResponseEntity userSignUp(@RequestBody @Valid UserDTO user) {
         String userName = user.getBenutzername();
-        String eMail = user.getEmail();
         boolean userNameAlreadyInUse = userDetailService.getUserByName(userName).isPresent();
-        boolean emailAlreadyInUse = userDetailService.getUserByEmail(eMail).isPresent();
 
-        if(!userNameAlreadyInUse && !emailAlreadyInUse){
+        if(!userNameAlreadyInUse){
             userDetailService.createUser(user);
             return status(CREATED).build();
         }
-        ArrayList<String> errorFields = userDetailService.getErrorFields(userNameAlreadyInUse, emailAlreadyInUse);
+        ArrayList<String> errorFields = userDetailService.getErrorFields(userNameAlreadyInUse);
         return status(BAD_REQUEST).body(new ValidationError(errorFields));
     }
 
