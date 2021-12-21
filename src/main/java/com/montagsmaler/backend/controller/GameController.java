@@ -34,7 +34,6 @@ public class GameController {
         return action;
     }
 
-    @CrossOrigin
     @MessageMapping("/chat")
     @SendTo("/topic/messages")
     public void greeting(String message) {
