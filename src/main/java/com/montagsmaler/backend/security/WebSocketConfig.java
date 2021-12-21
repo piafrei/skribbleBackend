@@ -18,9 +18,9 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/game/{fleetId}/driver/{driverId}");
-        registry.addEndpoint("/game/{fleetId}/driver/{driverId}").withSockJS();
-        registry.addEndpoint("/chat");
-        registry.addEndpoint("/chat").withSockJS();
+        registry.addEndpoint("/game/{fleetId}/driver/{driverId}").setAllowedOrigins("*");
+        registry.addEndpoint("/game/{fleetId}/driver/{driverId}").setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint("/chat").setAllowedOrigins("*");
+        registry.addEndpoint("/chat").setAllowedOrigins("*").withSockJS();
     }
 }
