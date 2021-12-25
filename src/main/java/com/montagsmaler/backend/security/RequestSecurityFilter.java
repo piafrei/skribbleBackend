@@ -1,6 +1,6 @@
 package com.montagsmaler.backend.security;
 
-import com.montagsmaler.backend.UserManagement.UserDetailServiceImpl;
+import com.montagsmaler.backend.userManagement.UserDetailServiceImpl;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
