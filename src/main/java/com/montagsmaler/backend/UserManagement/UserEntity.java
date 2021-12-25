@@ -11,19 +11,32 @@ public class UserEntity {
     private UUID userID;
     private String userName;
     private String password;
+    private Avatar avatar;
 
     public UserEntity() {}
 
-    public UserEntity(String userName, String password) {
+    public UserEntity(String userName, String password, Avatar avatar) {
         this.userID = UUID.randomUUID();
         this.password = password;
         this.userName = userName;
+        this.avatar = avatar;
     }
 
     public UserEntity(UserDTO user){
         this.userID = UUID.randomUUID();
         this.userName = user.getBenutzername();;
         this.password = user.getPasswort();
+        initialiseAvatar(user);
+    }
+
+    private void initialiseAvatar(UserDTO user) {
+        if(user.getAvatar() != null){
+            this.avatar = user.getAvatar();
+        } else {
+            Avatar avatar = new Avatar();
+            avatar.setToDefaults();
+            this.avatar = avatar;
+        }
     }
 
     public String getUserName() {
@@ -44,5 +57,13 @@ public class UserEntity {
 
     public UUID getUserID() {
         return userID;
+    }
+
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
     }
 }

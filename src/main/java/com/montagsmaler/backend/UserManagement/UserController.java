@@ -53,7 +53,7 @@ public class UserController {
 
 
     @PostMapping(value="/update")
-    public ResponseEntity updateUser(@RequestBody @Valid UserUpdateDTO user) {
+    public ResponseEntity updateUser(@RequestBody UserUpdateDTO user) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         Optional<ArrayList<String>> errorFields = userDetailService.updateUserDetails(user, userName);

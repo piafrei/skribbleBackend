@@ -61,6 +61,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
             if(!userNameAlreadyInUse){
                 if(newUserName != null){ userEntityToUpdate.setUserName(newUserName); }
                 if(user.getPasswort() != null){ userEntityToUpdate.setPassword(passwordEncoder.encode(user.getPasswort())); }
+                if(user.getAvatar() != null){ userEntityToUpdate.setAvatar(user.getAvatar()); }
 
                 userRepository.save(userEntityToUpdate);
             } else {
