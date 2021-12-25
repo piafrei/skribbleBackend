@@ -12,10 +12,19 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 })
 public abstract class Action {
     private ActionType actionType;
+    private String gameId;
 
     protected Action(ActionType actionType) {
         this.actionType = actionType;
     }
 
     public abstract ActionType getActionType();
+
+    public String getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
+    }
 }

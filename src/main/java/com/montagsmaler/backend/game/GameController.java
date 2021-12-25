@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import com.montagsmaler.backend.Message;
 
 import javax.annotation.Resource;
 import java.util.Optional;
@@ -38,21 +39,33 @@ public class GameController {
         return gameService.createNewGame(user);
     }
 
-    @PostMapping(value="/backend/structure")
-    public Optional<ActionResponse> structureTest(@RequestBody Action action) {
+    @PostMapping(value="/backend/structure/{gameId}")
+    public Optional<ActionResponse> structureTest(@RequestBody Action action, @PathVariable String gameId) {
         ActionStrategy strategy = strategyFactory.findActionStrategyByActionName(action.getActionType());
+        action.setGameId(gameId);
         Optional<ActionResponse> actionResponse = strategy.executeAction(action);
 
         return actionResponse;
     }
 
-    @MessageMapping("/chat")
-    @SendTo("/topic/messages")
-    public Greeting greeting(String message) {
+  /*  @MessageMapping("/hello")
+    @SendTo("/topic/greetings")
+    public Greeting greeting(Message message) throws InterruptedException {
+        Thread.sleep(1000); // simulated delay
         //return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
         System.out.println("habikuku");
         //this.template.convertAndSend("yay");
-        return new Greeting("Hello" + message);
+        return new Greeting("Hello" + message.getName());
+    }*/
+
+    @MessageMapping("/game/{gameId}")
+    @SendTo("/updates/{gameId}")
+    public Greeting gameSpecificGreeting(@DestinationVariable String gameId, Message message) throws InterruptedException {
+        Thread.sleep(1000); // simulated delay
+        //return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
+        System.out.println("habikuku");
+        //this.template.convertAndSend("yay");
+        return new Greeting("(Game "+gameId+ " :Hello" + message.getName());
     }
 
     @MessageMapping("/game/{fleetId}/driver/{driverId}")
