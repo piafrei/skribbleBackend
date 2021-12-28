@@ -1,10 +1,12 @@
 package com.montagsmaler.backend.game;
 
-import com.montagsmaler.backend.Greeting;
-import com.montagsmaler.backend.actionHandling.actionInput.Action;
-import com.montagsmaler.backend.actionHandling.actionResponse.ActionResponse;
-import com.montagsmaler.backend.actionHandling.actionStrategies.ActionStrategy;
-import com.montagsmaler.backend.actionHandling.actionStrategies.ActionStrategyFactory;
+import com.montagsmaler.backend.game.actionHandling.actionInput.Action;
+import com.montagsmaler.backend.game.actionHandling.actionInput.implementation.StartGameAction;
+import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.ActionResponse;
+import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.implementation.RoundStatisticActionResponse;
+import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.implementation.StartGameActionResponse;
+import com.montagsmaler.backend.game.actionHandling.actionStrategies.ActionStrategy;
+import com.montagsmaler.backend.game.actionHandling.actionStrategies.ActionStrategyFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -13,19 +15,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import com.montagsmaler.backend.Message;
 
 import javax.annotation.Resource;
+import java.security.Principal;
 import java.util.Optional;
 
 @RestController
 public class GameController {
     @Autowired
     private ActionStrategyFactory strategyFactory;
+    @Autowired
+    private SimpMessagingTemplate template;
     @Resource
     private GameService gameService;
-
-    private SimpMessagingTemplate template;
 
     @RequestMapping(value="/backend/sayhello")
     public String sayHello() {
@@ -35,7 +37,9 @@ public class GameController {
     @PostMapping(value="/backend/game")
     public String createGame() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String user = authentication.getName();
+       // String user = authentication.getName();
+        String user = "maia";
+
         return gameService.createNewGame(user);
     }
 
@@ -43,36 +47,35 @@ public class GameController {
     public Optional<ActionResponse> structureTest(@RequestBody Action action, @PathVariable String gameId) {
         ActionStrategy strategy = strategyFactory.findActionStrategyByActionName(action.getActionType());
         action.setGameId(gameId);
-        Optional<ActionResponse> actionResponse = strategy.executeAction(action);
 
-        return actionResponse;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //action.setUsername(authentication.getName());
+        action.setUsername("maia");
+
+        return strategy.executeAction(action);
     }
 
-  /*  @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public Greeting greeting(Message message) throws InterruptedException {
-        Thread.sleep(1000); // simulated delay
-        //return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
-        System.out.println("habikuku");
-        //this.template.convertAndSend("yay");
-        return new Greeting("Hello" + message.getName());
-    }*/
+    public void sendScheduledUpdate(String gameId, ActionResponse actionResponse)
+    {
+        template.convertAndSend("/updates/" + gameId, actionResponse);
+    }
+
+    public void sendToSpecificUser(String gameId, String userId, ActionResponse actionResponse)
+    {
+        template.convertAndSend("/updates/" + gameId + "/user/" + userId, actionResponse);
+    }
 
     @MessageMapping("/game/{gameId}")
     @SendTo("/updates/{gameId}")
-    public Greeting gameSpecificGreeting(@DestinationVariable String gameId, Message message) throws InterruptedException {
-        Thread.sleep(1000); // simulated delay
-        //return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
-        System.out.println("habikuku");
-        //this.template.convertAndSend("yay");
-        return new Greeting("(Game "+gameId+ " :Hello" + message.getName());
-    }
+    public Optional<ActionResponse> gameSpecificGreeting(@DestinationVariable String gameId, Action action) {
+        ActionStrategy strategy = strategyFactory.findActionStrategyByActionName(action.getActionType());
+        action.setGameId(gameId);
 
-    @MessageMapping("/game/{fleetId}/driver/{driverId}")
-    @SendTo("/app/fleet/{fleetId}")
-    public String simple(@DestinationVariable String fleetId, @DestinationVariable String driverId) {
-        return "Response: " + fleetId + driverId;
-    }
+        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //action.setUsername(authentication.getName());
+        action.setUsername("pia");
 
+        return strategy.executeAction(action);
+    }
 
 }

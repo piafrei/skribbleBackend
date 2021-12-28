@@ -1,5 +1,7 @@
 package com.montagsmaler.backend.game;
 
+import com.montagsmaler.backend.game.wordsToGuess.Category;
+import com.montagsmaler.backend.game.wordsToGuess.Difficulty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,12 +11,32 @@ import java.util.*;
 public class GameEntity {
     @Id
     private String gameId;
-    private Canvas canvas;
-    private Map<UUID,Integer> playerToScoreMap = new HashMap<>();
-    private UUID host;
-    private int rounds;
-    private int activeRound;
-    private Gameround gameround;
+    private Map<String,Integer> playerToOverallScoreMap = new HashMap<>();
+    private String host;
+    private int rounds = 3;
+    private Gameround activeRound;
+
+    public GameEntity() {
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    private Category category;
+    private Difficulty difficulty;
 
     public int getRounds() {
         return rounds;
@@ -24,45 +46,28 @@ public class GameEntity {
         this.rounds = rounds;
     }
 
-    public int getActiveRound() {
+    public Gameround getActiveRound() {
         return activeRound;
     }
 
-    public void setActiveRound(int activeRound) {
+    public void setActiveRound(Gameround activeRound) {
         this.activeRound = activeRound;
     }
 
-    public Gameround getGameround() {
-        return gameround;
+    public Set<String> getPlayers(){
+        return playerToOverallScoreMap.keySet();
     }
 
-    public void setGameround(Gameround gameround) {
-        this.gameround = gameround;
+    public void addPlayer(String userId){
+        playerToOverallScoreMap.put(userId, 0);
     }
 
-
-    public Set<UUID> getPlayers(){
-        return playerToScoreMap.keySet();
+    public Map<String, Integer> getPlayerToOverallScoreMap() {
+        return playerToOverallScoreMap;
     }
 
-    public void addPlayer(UUID userId){
-        playerToScoreMap.put(userId, 0);
-    }
-
-    public Canvas getCanvas() {
-        return canvas;
-    }
-
-    public void setCanvas(Canvas canvas) {
-        this.canvas = canvas;
-    }
-
-    public Map<UUID, Integer> getPlayerToScoreMap() {
-        return playerToScoreMap;
-    }
-
-    public void setPlayerToScoreMap(Map<UUID, Integer> playerToScoreMap) {
-        this.playerToScoreMap = playerToScoreMap;
+    public void setPlayerToOverallScoreMap(Map<String, Integer> playerToOverallScoreMap) {
+        this.playerToOverallScoreMap = playerToOverallScoreMap;
     }
 
     public String getGameId() {
@@ -73,11 +78,15 @@ public class GameEntity {
         this.gameId = gameId;
     }
 
-    public UUID getHost() {
+    public String getHost() {
         return host;
     }
 
-    public void setHost(UUID host) {
+    public void setHost(String host) {
         this.host = host;
+    }
+
+    public boolean isGameRunning(){
+        return activeRound != null;
     }
 }

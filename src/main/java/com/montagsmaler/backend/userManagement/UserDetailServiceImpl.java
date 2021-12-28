@@ -1,5 +1,6 @@
 package com.montagsmaler.backend.userManagement;
 
+import com.montagsmaler.backend.game.datatransferObjects.GameUserDTO;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -43,7 +44,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         }
     }
 
-    private UserEntity getUserEntityByName(String userName) {
+    public UserEntity getUserEntityByName(String userName) {
         return userRepository.findExampleUserEntityByUserName(userName);
     }
 
@@ -88,7 +89,13 @@ public class UserDetailServiceImpl implements UserDetailsService {
         return errorFields;
     }
 
-    public UUID getUserIDByName(String createrUserName) {
-        return getUserEntityByName(createrUserName).getUserID();
+    public Optional<GameUserDTO> getGameUserByName(String currentDrawer) {
+        UserEntity result = userRepository.findExampleUserEntityByUserName(currentDrawer);
+        if(result != null){
+            GameUserDTO user = new GameUserDTO(result);
+            return Optional.of(user);
+        } else {
+            return Optional.empty();
+        }
     }
 }
