@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().configurationSource(request -> {
             var cors = new CorsConfiguration();
-            cors.setAllowedOrigins(Arrays.asList("http://localhost:4200","http://localhost:8080"));
+            cors.setAllowedOrigins(Arrays.asList("http://localhost:4200","http://localhost:8080","http://localhost:333"));
             cors.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE", "OPTIONS"));
             cors.setAllowedHeaders(Arrays.asList("*"));
             cors.setAllowCredentials(true);
