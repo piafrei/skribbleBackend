@@ -45,6 +45,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/chat");
         registry.addEndpoint("/chat").withSockJS();*/
         //registry.addEndpoint("/gs-guide-websocket").setAllowedOrigins("http://localhost:4200","http://localhost:8080").withSockJS();
+        registry.addEndpoint("/game-websocket-connection").setAllowedOrigins("http://localhost:4200","http://localhost:8080");
         registry.addEndpoint("/game-websocket-connection").setAllowedOrigins("http://localhost:4200","http://localhost:8080").withSockJS();
     }
 }
