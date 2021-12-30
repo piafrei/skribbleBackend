@@ -32,7 +32,6 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        //config.enableSimpleBroker("/topic");
         config.enableSimpleBroker("/updates");
         config.setApplicationDestinationPrefixes("/app");
         config.setUserDestinationPrefix("/user");
@@ -40,11 +39,6 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        /*registry.addEndpoint("/game/{fleetId}/driver/{driverId}").setAllowedOrigins("*");
-        registry.addEndpoint("/game/{fleetId}/driver/{driverId}").setAllowedOrigins("*").withSockJS();
-        registry.addEndpoint("/chat");
-        registry.addEndpoint("/chat").withSockJS();*/
-        //registry.addEndpoint("/gs-guide-websocket").setAllowedOrigins("http://localhost:4200","http://localhost:8080").withSockJS();
         registry.addEndpoint("/game-websocket-connection").setAllowedOrigins("http://localhost:4200","http://localhost:8080","http://localhost:333");
         registry.addEndpoint("/game-websocket-connection").setAllowedOrigins("http://localhost:4200","http://localhost:8080","http://localhost:333").withSockJS();
     }

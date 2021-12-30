@@ -7,6 +7,7 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -21,7 +22,7 @@ public class WordService {
     public Word getRandomWord(){
         List<Word> words = wordRepository.findAll();
         if(!CollectionUtils.isEmpty(words)){
-            int randomNum = ThreadLocalRandom.current().nextInt(0, words.size()) -1;
+            int randomNum = ThreadLocalRandom.current().nextInt(0, words.size());
             return words.get(randomNum);
         }
         return null;
