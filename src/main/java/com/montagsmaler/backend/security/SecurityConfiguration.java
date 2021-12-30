@@ -33,18 +33,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().configurationSource(request -> {
             var cors = new CorsConfiguration();
-            cors.setAllowedOrigins(Arrays.asList("http://localhost:4200","http://localhost:8080","http://localhost:333"));
+            //cors.setAllowedOrigins(Arrays.asList("http://localhost:4200","http://localhost:8080","http://localhost:333"));
+            cors.setAllowedOrigins(Arrays.asList("*"));
             cors.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE", "OPTIONS"));
             cors.setAllowedHeaders(Arrays.asList("*"));
             cors.setAllowCredentials(true);
             return cors;
-        }).and().csrf().disable()
+        }).and().csrf().disable();/*
                 .authorizeRequests()
                 .antMatchers("/backend/user/signup").permitAll()
                 .antMatchers("/backend/user/authenticate").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilterBefore(requestSecurityFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(requestSecurityFilter, UsernamePasswordAuthenticationFilter.class);*/
 
     }
 

@@ -4,7 +4,7 @@ function EQ_GET_DATA(){
 "prmetrics":{"5":1,"6":1,"7":1,"8":1,"9":4,"10":1,"11":2},
 "prmetricvalues":{"5":0,"6":11,"7":0,"8":327,"9":39,"10":2,"11":110},
 "children": [ {
-"name": "com.montagsmaler.backend.UserManagement", "value":306, 
+"name": "com.montagsmaler.backend.userManagement", "value":306, 
 "pmetrics":{"4":2,"12":2,"13":1,"14":2,"3":1,"1":1,"0":2,"6":2,"8":2,"2":2,"15":1,"16":1},
 "pmetricvalues":{"4":2,"12":6,"13":1,"14":8,"3":1,"1":1,"0":2,"17":0.111,"6":9,"18":0.111,"8":306,"19":1.0,"2":2,"15":0,"16":88},
 "children":[
@@ -55,7 +55,7 @@ function EQ_GET_DATA(){
 }
 ]
 },{
-"name": "com.montagsmaler.backend.UserManagement.dto", "value":21, 
+"name": "com.montagsmaler.backend.userManagement.datatransferObjects", "value":21,
 "pmetrics":{"4":1,"12":1,"13":1,"14":1,"3":1,"1":1,"0":1,"6":1,"8":1,"2":1,"15":1,"16":1},
 "pmetricvalues":{"4":1,"12":0,"13":0,"14":2,"3":1,"1":1,"0":1,"17":1.0,"6":2,"18":0.0,"8":21,"19":0.0,"2":1,"15":1,"16":8},
 "children":[
