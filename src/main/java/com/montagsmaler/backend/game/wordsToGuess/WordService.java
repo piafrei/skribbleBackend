@@ -21,7 +21,7 @@ public class WordService {
     public Word getRandomWord(){
         List<Word> words = wordRepository.findAll();
         if(!CollectionUtils.isEmpty(words)){
-            int randomNum = ThreadLocalRandom.current().nextInt(1, words.size() + 1);
+            int randomNum = ThreadLocalRandom.current().nextInt(0, words.size()) -1;
             return words.get(randomNum);
         }
         return null;
