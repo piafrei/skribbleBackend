@@ -38,13 +38,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             cors.setAllowedHeaders(Arrays.asList("*"));
             cors.setAllowCredentials(true);
             return cors;
-        }).and().csrf().disable();/*
+        }).and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/backend/user/signup").permitAll()
                 .antMatchers("/backend/user/authenticate").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilterBefore(requestSecurityFilter, UsernamePasswordAuthenticationFilter.class);*/
+        http.addFilterBefore(requestSecurityFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
 
