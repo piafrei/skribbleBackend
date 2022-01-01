@@ -39,7 +39,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/game-websocket-connection").setAllowedOrigins("http://localhost:4200","http://localhost:8080","http://localhost:333");
-        registry.addEndpoint("/game-websocket-connection").setAllowedOrigins("http://localhost:4200","http://localhost:8080","http://localhost:333").withSockJS();
+        registry.addEndpoint("/game-websocket-connection").setAllowedOrigins("*");
+        registry.addEndpoint("/game-websocket-connection").setAllowedOrigins("*").withSockJS();
     }
 }
