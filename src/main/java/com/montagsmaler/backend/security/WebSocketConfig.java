@@ -77,6 +77,10 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/updates").setAllowedOrigins("*");
+        registry.addEndpoint("/updates").setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint("/app").setAllowedOrigins("*");
+        registry.addEndpoint("/app").setAllowedOrigins("*").withSockJS();
         registry.addEndpoint("/game-websocket-connection").setAllowedOrigins("*");
         registry.addEndpoint("/game-websocket-connection").setAllowedOrigins("*").withSockJS();
     }
