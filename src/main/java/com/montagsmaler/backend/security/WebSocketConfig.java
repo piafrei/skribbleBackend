@@ -1,5 +1,6 @@
 package com.montagsmaler.backend.security;
 
+import com.montagsmaler.backend.ForbiddenException;
 import com.montagsmaler.backend.userManagement.UserDetailServiceImpl;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
@@ -38,8 +39,8 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
                     String jwtToken = accessor.getFirstNativeHeader("Authorization");
                     System.out.println("webSocket token is "+ jwtToken);
 
-                    String username;
-                    String jwt;
+                    String username = null;
+                    String jwt = null;
 
                     if (jwtToken != null && jwtToken.startsWith("Bearer ")) {
                         jwt = jwtToken.substring(7);
@@ -53,10 +54,15 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
                                     userDetails, null, userDetails.getAuthorities());
                             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                             accessor.setUser(usernamePasswordAuthenticationToken);
+                            return message;
+                        } else {
+                            throw new ForbiddenException();
                         }
+                    } else {
+                        throw new ForbiddenException();
                     }
                 }
-                return message;
+                return  message;
             }
         });
     }
