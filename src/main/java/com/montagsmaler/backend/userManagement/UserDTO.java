@@ -1,8 +1,6 @@
 package com.montagsmaler.backend.userManagement;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.montagsmaler.backend.userManagement.avatar.Avatar;
-
 import javax.validation.constraints.NotBlank;
 
 public class UserDTO {
@@ -12,19 +10,22 @@ public class UserDTO {
     @JsonProperty("password")
     @NotBlank(message = "Bitte geben Sie für das Pflichtfeld Passwort einen Wert an.")
     private String passwort;
-    private Avatar avatar;
+    private String avatar;
 
     public UserDTO(String userName, String password) {
         this.benutzername = userName;
         this.passwort = password;
     }
 
-    public UserDTO(UserEntity userEntity) {
-        this.benutzername = userEntity.getUserName();
-        this.avatar = userEntity.getAvatar();
+    public UserDTO() {
     }
 
-    public UserDTO() {
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getBenutzername() {
@@ -41,13 +42,5 @@ public class UserDTO {
 
     public void setPasswort(String passwort) {
         this.passwort = passwort;
-    }
-
-    public Avatar getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(Avatar avatar) {
-        this.avatar = avatar;
     }
 }

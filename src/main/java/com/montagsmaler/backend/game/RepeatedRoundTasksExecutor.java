@@ -8,12 +8,15 @@ import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.imp
 import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.implementation.NewRoundActionResponse;
 import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.implementation.RoundStatisticActionResponse;
 import com.montagsmaler.backend.userManagement.UserDetailServiceImpl;
+import org.springframework.context.ApplicationListener;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
-public class RepeatedRoundTasksExecutor implements Runnable {
+@Component
+public class RepeatedRoundTasksExecutor implements Runnable, ApplicationListener<AllUserGuessedWordEvent> {
     private static final int POINTS_FOR_RIGHT_GUESS = 30;
-    public static final int ONE_MINUTE_IN_MILLI_SEC = 60000;
+    public static final int ONE_MINUTE_IN_MILLI_SEC = 30000;
     public static final int POINTS_FOR_DRAWER_PER_RIGHT_GUESS = 5;
 
     GameController gameController;
@@ -21,6 +24,11 @@ public class RepeatedRoundTasksExecutor implements Runnable {
     UserDetailServiceImpl userDetailService;
     String gameId;
     int rounds;
+    private static final Object foo = new Object();
+    boolean allPlayersGuessedRight = false;
+
+    public RepeatedRoundTasksExecutor(){
+    }
 
     public RepeatedRoundTasksExecutor(String gameId, int rounds) {
         this.gameController = SpringContext.getBean(GameController.class);
@@ -32,8 +40,8 @@ public class RepeatedRoundTasksExecutor implements Runnable {
 
     public void run()
     {
-        try
-        {
+        /*try
+        {*/
             Optional<GameEntity> initialGameEntity = gameService.getGameById(gameId);
             GameEntity updatedGame = null;
 
@@ -49,8 +57,25 @@ public class RepeatedRoundTasksExecutor implements Runnable {
                         gameController.sendScheduledUpdate(game.getGameId(), new NewRoundActionResponse(drawer, gameround.getActiveWord().getWordLenth(), gameround.getRoundNumber()));
 
                         System.out.println("lets wait a min");
-                        java.lang.Thread.sleep(ONE_MINUTE_IN_MILLI_SEC);
-                        System.out.println("okay lets continue");
+                         /*   try {
+                                synchronized (foo){
+                                    while (!allPlayersGuessedRight){
+                                        System.out.println("okay lets wait in sync");
+                                        foo.wait();
+                                    }
+                                    //continue
+                                    System.out.println("okay lets continue in sync");
+                                }
+                            } catch (InterruptedException e){
+                                e.printStackTrace();
+                            }*/
+
+                        try {
+                            Thread.sleep(ONE_MINUTE_IN_MILLI_SEC);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        //System.out.println("okay lets continue");
 
                         updatedGame = gameService.getGameById(gameId).get();
                         Map<String, Integer> roundPoints = parseRoundPoints(gameround);
@@ -62,10 +87,19 @@ public class RepeatedRoundTasksExecutor implements Runnable {
                 updatedGame = gameService.getGameById(gameId).get();
                 gameController.sendScheduledUpdate(gameId,new GameEndedRankingActionResponse(parsePlayerToScoreMap(updatedGame.getPlayerToOverallScoreMap())));
             }
-        }
-        catch (Exception e)
+        //}
+      /*  catch (Exception e)
         {
-            System.out.println("There was a exception! " + e);
+            System.out.println("There was a exception! " + e.getStackTrace() + e.getCause() + e.getMessage());
+        }*/
+    }
+
+    @Override
+    public void onApplicationEvent(AllUserGuessedWordEvent event) {
+        System.out.println("Received spring custom event - " + event.getGameId());
+        synchronized (foo){
+            allPlayersGuessedRight = true;
+            foo.notify();
         }
     }
 

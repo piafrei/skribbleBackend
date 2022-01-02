@@ -7,11 +7,11 @@ import com.montagsmaler.backend.game.canvas.PixelDTO;
 import java.util.List;
 
 public class DrawActionResponse extends ActionResponse {
-    private static final ActionResponseType ACTION_RESPONSE_TYPE = ActionResponseType.drawAction;
+    private static final ActionResponseType ACTION_RESPONSE_TYPE = ActionResponseType.draw;
 
-    private List<PixelDTO> pixelToUpdate;
+    private PixelDTO pixelToUpdate;
 
-    public DrawActionResponse(List<PixelDTO> pixelToUpdate) {
+    public DrawActionResponse(PixelDTO pixelToUpdate) {
         super(ACTION_RESPONSE_TYPE);
         this.pixelToUpdate = pixelToUpdate;
     }
@@ -21,11 +21,11 @@ public class DrawActionResponse extends ActionResponse {
         return ACTION_RESPONSE_TYPE;
     }
 
-    public List<PixelDTO> getPixelToUpdate() {
+    public PixelDTO getPixelToUpdate() {
         return pixelToUpdate;
     }
 
-    public void setPixelToUpdate(List<PixelDTO> pixelToUpdate) {
+    public void setPixelToUpdate(PixelDTO pixelToUpdate) {
         this.pixelToUpdate = pixelToUpdate;
     }
 }

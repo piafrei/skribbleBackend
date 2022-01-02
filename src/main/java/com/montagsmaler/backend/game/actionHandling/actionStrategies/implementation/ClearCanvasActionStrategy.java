@@ -7,11 +7,13 @@ import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.imp
 import com.montagsmaler.backend.game.actionHandling.actionStrategies.ActionStrategy;
 import com.montagsmaler.backend.game.actionHandling.actionStrategies.ActionStrategyName;
 import com.montagsmaler.backend.game.GameService;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Optional;
 
-public class ClearCanvasStrategy implements ActionStrategy{
+@Component
+public class ClearCanvasActionStrategy implements ActionStrategy{
     @Resource
     CanvasService canvasService;
 

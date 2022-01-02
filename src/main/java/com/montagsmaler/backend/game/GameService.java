@@ -5,6 +5,7 @@ import com.montagsmaler.backend.game.canvas.CanvasRepository;
 import com.montagsmaler.backend.game.datatransferObjects.GameUserDTO;
 import com.montagsmaler.backend.game.wordsToGuess.WordService;
 import com.montagsmaler.backend.userManagement.UserDetailServiceImpl;
+import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

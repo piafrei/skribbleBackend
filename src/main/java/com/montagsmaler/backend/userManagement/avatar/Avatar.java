@@ -1,46 +1,39 @@
 package com.montagsmaler.backend.userManagement.avatar;
 
+import static com.montagsmaler.backend.game.GameController.PATH_TO_IMAGE_FOLDER;
+
 public class Avatar {
-    private String farbe;
-    private Augentyp augen;
-    private Mundtyp mund;
+
+    private String name;
+    private String imagePath;
 
     public Avatar() {
     }
 
-    public Avatar(String farbe, Augentyp augen, Mundtyp mund) {
-        this.farbe = farbe;
-        this.augen = augen;
-        this.mund = mund;
+    public Avatar(String name, String imagePath) {
+        this.name = name;
+        this.imagePath = PATH_TO_IMAGE_FOLDER + imagePath;
     }
 
     public void setToDefaults(){
-        farbe = "schwarz";
-        augen = Augentyp.NORMAL;
-        mund = Mundtyp.GLUECKLICH;
+        name = AvatarToImageConfig.ANANAS.name();
+        imagePath = PATH_TO_IMAGE_FOLDER + AvatarToImageConfig.ANANAS.getAvatarImage();
     }
 
-    public String getFarbe() {
-        return farbe;
+    public String getName() {
+        return name;
     }
 
-    public void setFarbe(String farbe) {
-        this.farbe = farbe;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Augentyp getAugen() {
-        return augen;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setAugen(Augentyp augen) {
-        this.augen = augen;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
-    public Mundtyp getMund() {
-        return mund;
-    }
-
-    public void setMund(Mundtyp mund) {
-        this.mund = mund;
-    }
 }

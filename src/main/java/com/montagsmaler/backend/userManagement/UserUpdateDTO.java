@@ -1,7 +1,6 @@
 package com.montagsmaler.backend.userManagement;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.montagsmaler.backend.userManagement.avatar.Avatar;
 
 public class UserUpdateDTO {
     @JsonProperty("userName")
@@ -9,7 +8,15 @@ public class UserUpdateDTO {
     @JsonProperty("password")
     private String passwort;
     @JsonProperty("avatar")
-    private Avatar avatar;
+    private String avatar;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     public String getBenutzername() {
         return benutzername;
@@ -25,14 +32,6 @@ public class UserUpdateDTO {
 
     public void setPasswort(String passwort) {
         this.passwort = passwort;
-    }
-
-    public Avatar getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(Avatar avatar) {
-        this.avatar = avatar;
     }
 }
 

@@ -65,10 +65,10 @@ public class UserController {
     }
 
     @GetMapping(value="/details")
-    public UserDTO getUserDetails() {
+    public UserResponseDTO getUserDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
-        Optional<UserDTO> user = userDetailService.getUserByName(userName);
+        Optional<UserResponseDTO> user = userDetailService.getUserByName(userName);
         if(user.isPresent()){
             return user.get();
         }

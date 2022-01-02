@@ -1,6 +1,7 @@
 package com.montagsmaler.backend.userManagement;
 
 import com.montagsmaler.backend.game.datatransferObjects.GameUserDTO;
+import com.montagsmaler.backend.userManagement.avatar.AvatarService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.UUID;
 
 import static java.util.Collections.emptyList;
 
@@ -24,20 +24,23 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Resource
     private UserRepository userRepository;
 
+    @Resource
+    private AvatarService avatarService;
+
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         UserEntity userEntity = getUserEntityByName(userName);
         if (userEntity == null) {
-            System.out.println("userManagement not found");
+            System.out.println("userManagement not found for " + userName);
             throw new UsernameNotFoundException(userName);
         }
         return new User(userEntity.getUserName(), userEntity.getPassword(), emptyList());
     }
 
-    public Optional<UserDTO> getUserByName(String userName) {
+    public Optional<UserResponseDTO> getUserByName(String userName) {
         UserEntity result = getUserEntityByName(userName);
         if(result != null){
-            UserDTO user = new UserDTO(result);
+            UserResponseDTO user = new UserResponseDTO(result, avatarService.getAvatar(result.getAvatar()));
             return Optional.of(user);
         } else {
             return Optional.empty();
@@ -92,7 +95,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     public Optional<GameUserDTO> getGameUserByName(String currentDrawer) {
         UserEntity result = userRepository.findExampleUserEntityByUserName(currentDrawer);
         if(result != null){
-            GameUserDTO user = new GameUserDTO(result);
+            GameUserDTO user = new GameUserDTO(result, avatarService.getAvatar(result.getAvatar()));
             return Optional.of(user);
         } else {
             return Optional.empty();

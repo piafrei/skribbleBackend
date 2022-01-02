@@ -3,6 +3,7 @@ package com.montagsmaler.backend.userManagement;
 import com.montagsmaler.backend.userManagement.avatar.Avatar;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.util.StringUtils;
 
 import java.util.UUID;
 
@@ -12,11 +13,11 @@ public class UserEntity {
     private UUID userID;
     private String userName;
     private String password;
-    private Avatar avatar;
+    private String avatar;
 
     public UserEntity() {}
 
-    public UserEntity(String userName, String password, Avatar avatar) {
+    public UserEntity(String userName, String password, String avatar) {
         this.userID = UUID.randomUUID();
         this.password = password;
         this.userName = userName;
@@ -27,17 +28,7 @@ public class UserEntity {
         this.userID = UUID.randomUUID();
         this.userName = user.getBenutzername();;
         this.password = user.getPasswort();
-        initialiseAvatar(user);
-    }
-
-    private void initialiseAvatar(UserDTO user) {
-        if(user.getAvatar() != null){
-            this.avatar = user.getAvatar();
-        } else {
-            Avatar avatar = new Avatar();
-            avatar.setToDefaults();
-            this.avatar = avatar;
-        }
+        this.avatar = user.getAvatar();
     }
 
     public String getUserName() {
@@ -60,11 +51,11 @@ public class UserEntity {
         return userID;
     }
 
-    public Avatar getAvatar() {
+    public String getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(Avatar avatar) {
+    public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 }

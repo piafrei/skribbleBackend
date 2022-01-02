@@ -7,9 +7,9 @@ public class GameUserDTO {
     private String benutzername;
     private Avatar avatar;
 
-    public GameUserDTO(UserEntity userEntity) {
+    public GameUserDTO(UserEntity userEntity, Avatar avatar) {
         this.benutzername = userEntity.getUserName();
-        this.avatar = userEntity.getAvatar();
+        this.avatar = avatar;
     }
 
     public String getBenutzername() {

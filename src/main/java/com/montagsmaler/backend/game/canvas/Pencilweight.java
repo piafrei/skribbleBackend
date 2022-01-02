@@ -1,5 +1,5 @@
 package com.montagsmaler.backend.game.canvas;
 
-public enum Characterweight {
+public enum Pencilweight {
     KLEIN, MITTEL, GROSS;
 }

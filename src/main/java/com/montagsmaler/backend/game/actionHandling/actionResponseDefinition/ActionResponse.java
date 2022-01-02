@@ -13,7 +13,7 @@ import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.imp
         @JsonSubTypes.Type(value = NewRoundActionResponse.class, name = "newRound"),
         @JsonSubTypes.Type(value = DrawerWordActionResponse.class, name = "drawerInformation"),
         @JsonSubTypes.Type(value = GameEndedRankingActionResponse.class, name = "gameEndedRanking"),
-        @JsonSubTypes.Type(value = DrawActionResponse.class, name = "drawAction")
+        @JsonSubTypes.Type(value = DrawActionResponse.class, name = "draw")
 })
 public abstract class ActionResponse {
     private ActionResponseType actionResponseType;

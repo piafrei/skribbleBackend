@@ -1,27 +1,23 @@
 package com.montagsmaler.backend.game.canvas;
 
-import com.montagsmaler.backend.game.canvas.Characterweight;
-import com.montagsmaler.backend.game.canvas.Drawcolor;
-import com.montagsmaler.backend.game.canvas.PixelDTO;
-
 import java.util.List;
 
 public class CanvasDTO {
-    Characterweight activeCharacterweight;
+    Pencilweight activePencilweight;
     Drawcolor drawcolor;
     List<PixelDTO> elementList;
 
-    public CanvasDTO(Characterweight activeCharacterweight, Drawcolor drawcolor) {
-        this.activeCharacterweight = activeCharacterweight;
+    public CanvasDTO(Pencilweight activePencilweight, Drawcolor drawcolor) {
+        this.activePencilweight = activePencilweight;
         this.drawcolor = drawcolor;
     }
 
-    public Characterweight getActiveCharacterweight() {
-        return activeCharacterweight;
+    public Pencilweight getActivePencilweight() {
+        return activePencilweight;
     }
 
-    public void setActiveCharacterweight(Characterweight activeCharacterweight) {
-        this.activeCharacterweight = activeCharacterweight;
+    public void setActivePencilweight(Pencilweight activePencilweight) {
+        this.activePencilweight = activePencilweight;
     }
 
     public Drawcolor getDrawcolor() {

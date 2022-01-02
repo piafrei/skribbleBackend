@@ -7,9 +7,11 @@ import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.Act
 import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.implementation.DrawActionResponse;
 import com.montagsmaler.backend.game.actionHandling.actionStrategies.ActionStrategy;
 import com.montagsmaler.backend.game.actionHandling.actionStrategies.ActionStrategyName;
+import com.montagsmaler.backend.game.canvas.PixelDTO;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Optional;
 
 @Component

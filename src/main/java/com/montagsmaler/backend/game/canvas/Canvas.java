@@ -8,7 +8,7 @@ public class Canvas {
     @Id
     String canvasId;
     String gameId;
-    Characterweight activeCharacterweight;
+    Pencilweight activePencilweight;
     Drawcolor drawcolor;
 
     public String getCanvasId() {
@@ -19,12 +19,12 @@ public class Canvas {
         this.canvasId = canvasId;
     }
 
-    public Characterweight getActiveCharacterweight() {
-        return activeCharacterweight;
+    public Pencilweight getActivePencilweight() {
+        return activePencilweight;
     }
 
-    public void setActiveCharacterweight(Characterweight activeCharacterweight) {
-        this.activeCharacterweight = activeCharacterweight;
+    public void setActivePencilweight(Pencilweight activePencilweight) {
+        this.activePencilweight = activePencilweight;
     }
 
     public Drawcolor getDrawcolor() {
