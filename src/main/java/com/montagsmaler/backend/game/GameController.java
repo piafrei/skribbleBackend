@@ -1,18 +1,15 @@
 package com.montagsmaler.backend.game;
 
 import com.montagsmaler.backend.game.actionHandling.actionInput.Action;
-import com.montagsmaler.backend.game.actionHandling.actionInput.implementation.StartGameAction;
 import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.ActionResponse;
-import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.implementation.RoundStatisticActionResponse;
-import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.implementation.StartGameActionResponse;
 import com.montagsmaler.backend.game.actionHandling.actionStrategies.ActionStrategy;
 import com.montagsmaler.backend.game.actionHandling.actionStrategies.ActionStrategyFactory;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
+import com.montagsmaler.backend.userManagement.avatar.AvatarService;
+import com.montagsmaler.backend.userManagement.avatar.AvatarToImageConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -24,30 +21,42 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.security.Principal;
-import java.util.Optional;
+import java.net.URL;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 public class GameController {
+    public static final String PATH_TO_IMAGE_FOLDER = "image/";
     @Autowired
     private ActionStrategyFactory strategyFactory;
     @Autowired
     private SimpMessagingTemplate template;
     @Resource
     private GameService gameService;
+    @Autowired
+    private ResourceLoader resourceLoader;
+    @Resource
+    private AvatarService avatarService;
+
 
     @RequestMapping(value="/backend/sayhello")
     public String sayHello() {
         return "Hi!";
     }
 
+    @RequestMapping(value="/checkAuth")
+    public ResponseEntity checkAuthState() {
+        return ResponseEntity.ok().build();
+    }
+
+
     @PostMapping(value="/backend/game")
     public String createGame() {
-        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        //String user = authentication.getName();
-        String user = "maia";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String user = authentication.getName();
 
         return gameService.createNewGame(user);
     }
@@ -57,9 +66,8 @@ public class GameController {
         ActionStrategy strategy = strategyFactory.findActionStrategyByActionName(action.getActionType());
         action.setGameId(gameId);
 
-        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        //action.setUsername(authentication.getName());
-        action.setUsername("maia");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        action.setUsername(authentication.getName());
 
         return strategy.executeAction(action);
     }
@@ -80,22 +88,32 @@ public class GameController {
         ActionStrategy strategy = strategyFactory.findActionStrategyByActionName(action.getActionType());
         action.setGameId(gameId);
 
-        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        //action.setUsername(authentication.getName());
-        action.setUsername("pia");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(authentication.getName());
+
+        action.setUsername(authentication.getName());
 
         return strategy.executeAction(action);
     }
 
-    @RequestMapping(value = "/sid", method = RequestMethod.GET,
+    @GetMapping(value = "/avatar")
+    public Map<String,String> getAllAvatars(){
+        return avatarService.getAvatarToImageMap(PATH_TO_IMAGE_FOLDER);
+    }
+
+    @RequestMapping(value = "/avatar/{imageName}", method = RequestMethod.GET,
             produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<InputStreamResource> getImage() throws IOException {
-
-        var imgFile = new ClassPathResource("image/burger.jpg");
-
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.IMAGE_JPEG)
-                .body(new InputStreamResource(imgFile.getInputStream()));
+    public ResponseEntity<InputStreamResource> getImage(@PathVariable String imageName) throws IOException {
+        try {
+            //AvatarToImageConfig avatarToImageConfig = AvatarToImageConfig.valueOf(name);
+            var imgFile = new ClassPathResource(PATH_TO_IMAGE_FOLDER + imageName);
+            return ResponseEntity
+                    .ok()
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .body(new InputStreamResource(imgFile.getInputStream()));
+        } catch (Exception e) {
+            return ResponseEntity
+                    .notFound().build();
+        }
     }
 }
