@@ -34,9 +34,9 @@ public class RequestSecurityFilter extends OncePerRequestFilter {
         Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
 
         if (headerNames != null) {
-            String header = "";
+            StringBuilder header = new StringBuilder();
             while (headerNames.hasMoreElements()) {
-                header = header + " " + httpServletRequest.getHeader(headerNames.nextElement());
+                header.append(" ").append(httpServletRequest.getHeader(headerNames.nextElement()));
             }
             System.out.println("Headers: " + header);
         }
