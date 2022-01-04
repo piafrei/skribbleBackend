@@ -63,9 +63,9 @@ public class GameController {
 
     @PostMapping(value="/backend/game")
     public String createGame() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String user = authentication.getName();
-
+        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //String user = authentication.getName();
+        String user = "maia";
         return gameService.createNewGame(user);
     }
 
