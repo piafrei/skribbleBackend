@@ -5,16 +5,19 @@ import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.Act
 import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.ActionResponseType;
 import com.montagsmaler.backend.game.datatransferObjects.GameUserDTO;
 
+import java.util.List;
+
 public class UserJoinedActionResponse extends ActionResponse {
     private static final ActionResponseType ACTION_RESPONSE_TYPE = ActionResponseType.userJoined;
 
     private boolean hasGameStarted;
-    private GameUserDTO user;
+    private List<GameUserDTO> allUser;
     private GameIntermediateStatusDTO gameIntermediateStatus;
 
-    public UserJoinedActionResponse(GameUserDTO gameUserDTO, GameIntermediateStatusDTO gameIntermediateStatusDTO, boolean hasGameStarted) {
+    public UserJoinedActionResponse(List<GameUserDTO> allUser, GameIntermediateStatusDTO gameIntermediateStatusDTO, boolean hasGameStarted) {
         super(ACTION_RESPONSE_TYPE);
-        this.user = gameUserDTO;
+        this.allUser = allUser;
+        this.allUser = allUser;
         this.gameIntermediateStatus = gameIntermediateStatusDTO;
         this.hasGameStarted = hasGameStarted;
     }
@@ -22,14 +25,6 @@ public class UserJoinedActionResponse extends ActionResponse {
     @Override
     public ActionResponseType getActionResponseType() {
         return ACTION_RESPONSE_TYPE;
-    }
-
-    public GameUserDTO getUser() {
-        return user;
-    }
-
-    public void setUser(GameUserDTO user) {
-        this.user = user;
     }
 
     public GameIntermediateStatusDTO getGameIntermediateStatus() {
@@ -46,5 +41,13 @@ public class UserJoinedActionResponse extends ActionResponse {
 
     public void setHasGameStarted(boolean hasGameStarted) {
         this.hasGameStarted = hasGameStarted;
+    }
+
+    public List<GameUserDTO> getAllUser() {
+        return allUser;
+    }
+
+    public void setAllUser(List<GameUserDTO> allUser) {
+        this.allUser = allUser;
     }
 }

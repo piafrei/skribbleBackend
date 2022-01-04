@@ -18,7 +18,10 @@ import com.montagsmaler.backend.userManagement.avatar.AvatarService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class AddUserToGameStrategy implements ActionStrategy {
@@ -48,10 +51,15 @@ public class AddUserToGameStrategy implements ActionStrategy {
         if(userEntity != null){
             Optional<GameEntity> gameEntity = gameService.addUserToGame(addUserToGameAction.getGameId(), username);
             if(gameEntity.isPresent()){
-                GameUserDTO user = new GameUserDTO(userEntity, avatarService.getAvatar(userEntity.getAvatar()));
+                GameUserDTO newUser = new GameUserDTO(userEntity, avatarService.getAvatar(userEntity.getAvatar()));
                 GameEntity game = gameEntity.get();
                 CanvasDTO canvas = canvasService.getCanvasDTO(game).get();
-                return Optional.of(new UserJoinedActionResponse(user, new GameIntermediateStatusDTO(game, canvas, gameService.parsePlayerToScoreMap(game.getPlayerToOverallScoreMap()), game.getRounds()), game.isGameRunning()));
+                Set<String> players = game.getPlayers();
+                List<GameUserDTO> gameUserList = players.stream().map(player -> {
+                    UserEntity user = userDetailService.getUserEntityByName(username);
+                    return new GameUserDTO(user, avatarService.getAvatar(user.getAvatar()));
+                }).collect(Collectors.toList());
+                return Optional.of(new UserJoinedActionResponse(gameUserList, new GameIntermediateStatusDTO(game, canvas, gameService.parsePlayerToScoreMap(game.getPlayerToOverallScoreMap()), game.getRounds()), game.isGameRunning()));
             }
         }
         return Optional.empty();

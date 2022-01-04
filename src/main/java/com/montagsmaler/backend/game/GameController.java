@@ -111,7 +111,7 @@ public class GameController {
 
     @RequestMapping(value = AVATAR_ROOT_MAPPING +PATH_TO_IMAGE_FOLDER+"{imageName}", method = RequestMethod.GET,
             produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<InputStreamResource> getImage(@PathVariable String imageName) throws IOException {
+    public ResponseEntity<InputStreamResource> getImage(@PathVariable String imageName)  {
         try {
             //AvatarToImageConfig avatarToImageConfig = AvatarToImageConfig.valueOf(name);
             var imgFile = new ClassPathResource(PATH_TO_IMAGE_FOLDER + imageName);
