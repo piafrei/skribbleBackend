@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
 
 @Component
 public class RequestSecurityFilter extends OncePerRequestFilter {
@@ -30,6 +31,16 @@ public class RequestSecurityFilter extends OncePerRequestFilter {
 
         final String authorizationHeader = httpServletRequest.getHeader("Authorization");
         System.out.println(authorizationHeader);
+        Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
+
+        if (headerNames != null) {
+            String header = "";
+            while (headerNames.hasMoreElements()) {
+                header = header + " " + httpServletRequest.getHeader(headerNames.nextElement());
+            }
+            System.out.println("Headers: " + header);
+        }
+        System.out.println();
 
         String username = null;
         String jwt = null;
