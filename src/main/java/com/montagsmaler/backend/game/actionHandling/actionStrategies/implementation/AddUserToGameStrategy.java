@@ -23,6 +23,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.montagsmaler.backend.game.GameController.AVATAR_ROOT_MAPPING;
+
 @Component
 public class AddUserToGameStrategy implements ActionStrategy {
     @Resource
@@ -51,13 +53,12 @@ public class AddUserToGameStrategy implements ActionStrategy {
         if(userEntity != null){
             Optional<GameEntity> gameEntity = gameService.addUserToGame(addUserToGameAction.getGameId(), username);
             if(gameEntity.isPresent()){
-                GameUserDTO newUser = new GameUserDTO(userEntity, avatarService.getAvatar(userEntity.getAvatar()));
                 GameEntity game = gameEntity.get();
                 CanvasDTO canvas = canvasService.getCanvasDTO(game).get();
                 Set<String> players = game.getPlayers();
                 List<GameUserDTO> gameUserList = players.stream().map(player -> {
                     UserEntity user = userDetailService.getUserEntityByName(username);
-                    return new GameUserDTO(user, avatarService.getAvatar(user.getAvatar()));
+                    return new GameUserDTO(user, avatarService.getAvatar(AVATAR_ROOT_MAPPING +user.getAvatar()));
                 }).collect(Collectors.toList());
                 return Optional.of(new UserJoinedActionResponse(gameUserList, new GameIntermediateStatusDTO(game, canvas, gameService.parsePlayerToScoreMap(game.getPlayerToOverallScoreMap()), game.getRounds()), game.isGameRunning()));
             }
