@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.montagsmaler.backend.game.GameController.AVATAR_ROOT_MAPPING;
+
 @Service
 public class AvatarService {
 
@@ -35,7 +37,7 @@ public class AvatarService {
         if(name != null){
             try {
                 AvatarToImageConfig avatarToImageConfig = AvatarToImageConfig.valueOf(name);
-                return new Avatar(avatarToImageConfig.name(), avatarToImageConfig.getAvatarImage());
+                return new Avatar(avatarToImageConfig.name(), AVATAR_ROOT_MAPPING + avatarToImageConfig.getAvatarImage());
             } catch (Exception e) {
                 System.out.println("Invalid avatar name");
             }
