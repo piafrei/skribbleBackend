@@ -20,6 +20,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import javax.annotation.Resource;
 import java.util.Arrays;
 
+import static com.montagsmaler.backend.game.GameController.PATH_TO_IMAGE_FOLDER;
+
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Resource
@@ -33,6 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/avatar/**").permitAll()
                 .antMatchers("/game-websocket-connection").permitAll()
                 .antMatchers("/backend/user/signup").permitAll()
                 .antMatchers("/backend/user/authenticate").permitAll()

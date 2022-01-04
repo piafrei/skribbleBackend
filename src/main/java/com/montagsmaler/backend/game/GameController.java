@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 @RestController
 public class GameController {
     public static final String PATH_TO_IMAGE_FOLDER = "image/";
+    public static final String AVATAR_ROOT_MAPPING = "/avatar/";
     @Autowired
     private ActionStrategyFactory strategyFactory;
     @Autowired
@@ -108,12 +109,12 @@ public class GameController {
         return avatarService.getAvatarToImageMap(PATH_TO_IMAGE_FOLDER);
     }
 
-    @RequestMapping(value = "/avatar/{imageName}", method = RequestMethod.GET,
+    @RequestMapping(value = AVATAR_ROOT_MAPPING +PATH_TO_IMAGE_FOLDER+"{imageName}", method = RequestMethod.GET,
             produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<InputStreamResource> getImage(@PathVariable String imageName) throws IOException {
         try {
             //AvatarToImageConfig avatarToImageConfig = AvatarToImageConfig.valueOf(name);
-            var imgFile = new ClassPathResource(PATH_TO_IMAGE_FOLDER + imageName);
+            var imgFile = new ClassPathResource(AVATAR_ROOT_MAPPING + PATH_TO_IMAGE_FOLDER + imageName);
             return ResponseEntity
                     .ok()
                     .contentType(MediaType.IMAGE_JPEG)
