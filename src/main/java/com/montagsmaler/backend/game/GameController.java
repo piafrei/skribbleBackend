@@ -63,9 +63,8 @@ public class GameController {
 
     @PostMapping(value="/backend/game")
     public String createGame() {
-        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        //String user = authentication.getName();
-        String user = "maia";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String user = authentication.getName();
         return gameService.createNewGame(user);
     }
 
@@ -74,9 +73,9 @@ public class GameController {
         ActionStrategy strategy = strategyFactory.findActionStrategyByActionName(action.getActionType());
         action.setGameId(gameId);
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        action.setUsername(authentication.getName());
-
+        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //action.setUsername(authentication.getName());
+        action.setUsername("Maia");
         return strategy.executeAction(action);
     }
 
