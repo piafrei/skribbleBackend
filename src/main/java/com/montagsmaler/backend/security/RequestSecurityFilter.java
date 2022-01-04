@@ -29,6 +29,7 @@ public class RequestSecurityFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws IOException, ServletException {
 
         final String authorizationHeader = httpServletRequest.getHeader("Authorization");
+        System.out.println(authorizationHeader);
 
         String username = null;
         String jwt = null;
