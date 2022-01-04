@@ -29,51 +29,51 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     @Resource
     private JwtService jwtService;
 
-    @Override
-    public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.setInterceptors(new ChannelInterceptorAdapter() {
-            @Override
-            public Message<?> preSend(Message<?> message, MessageChannel channel) {
-                StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-                if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-                    String jwtToken;
-                    jwtToken = accessor.getFirstNativeHeader("Authorization");
-                    if(jwtToken == null){
-                        jwtToken = accessor.getFirstNativeHeader("login");
-                    }
-                    if(jwtToken == null){
-                        jwtToken = accessor.getFirstNativeHeader("passcode");
-                    }
-                    System.out.println("webSocket token is "+ jwtToken);
-                    System.out.println("accessor header "+ accessor.getMessageHeaders());
-
-                    String username = null;
-                    String jwt = null;
-
-                    if (jwtToken != null && jwtToken.startsWith("Bearer ")) {
-                        jwt = jwtToken.substring(7);
-                        username = jwtService.extractUsername(jwt);
-
-                        UserDetails userDetails = userDetailService.loadUserByUsername(username);
-
-                        if (jwtService.validateToken(jwt, userDetails)) {
-
-                            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                                    userDetails, null, userDetails.getAuthorities());
-                            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-                            accessor.setUser(usernamePasswordAuthenticationToken);
-                            return message;
-                        } else {
-                            throw new ForbiddenException();
-                        }
-                    } else {
-                        throw new ForbiddenException();
-                    }
-                }
-                return  message;
-            }
-        });
-    }
+//    @Override
+//    public void configureClientInboundChannel(ChannelRegistration registration) {
+//        registration.setInterceptors(new ChannelInterceptorAdapter() {
+//            @Override
+//            public Message<?> preSend(Message<?> message, MessageChannel channel) {
+//                StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+//                if (StompCommand.CONNECT.equals(accessor.getCommand())) {
+//                    String jwtToken;
+//                    jwtToken = accessor.getFirstNativeHeader("Authorization");
+//                    if(jwtToken == null){
+//                        jwtToken = accessor.getFirstNativeHeader("login");
+//                    }
+//                    if(jwtToken == null){
+//                        jwtToken = accessor.getFirstNativeHeader("passcode");
+//                    }
+//                    System.out.println("webSocket token is "+ jwtToken);
+//                    System.out.println("accessor header "+ accessor.getMessageHeaders());
+//
+//                    String username = null;
+//                    String jwt = null;
+//
+//                    if (jwtToken != null && jwtToken.startsWith("Bearer ")) {
+//                        jwt = jwtToken.substring(7);
+//                        username = jwtService.extractUsername(jwt);
+//
+//                        UserDetails userDetails = userDetailService.loadUserByUsername(username);
+//
+//                        if (jwtService.validateToken(jwt, userDetails)) {
+//
+//                            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+//                                    userDetails, null, userDetails.getAuthorities());
+//                            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+//                            accessor.setUser(usernamePasswordAuthenticationToken);
+//                            return message;
+//                        } else {
+//                            throw new ForbiddenException();
+//                        }
+//                    } else {
+//                        throw new ForbiddenException();
+//                    }
+//                }
+//                return  message;
+//            }
+//        });
+//    }
 
 
     @Override
