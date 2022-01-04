@@ -106,7 +106,7 @@ public class GameController {
 
     @GetMapping(value = "/avatar")
     public Map<String,String> getAllAvatars(){
-        return avatarService.getAvatarToImageMap(PATH_TO_IMAGE_FOLDER);
+        return avatarService.getAvatarToImageMap(AVATAR_ROOT_MAPPING + PATH_TO_IMAGE_FOLDER);
     }
 
     @RequestMapping(value = AVATAR_ROOT_MAPPING +PATH_TO_IMAGE_FOLDER+"{imageName}", method = RequestMethod.GET,
@@ -114,7 +114,7 @@ public class GameController {
     public ResponseEntity<InputStreamResource> getImage(@PathVariable String imageName) throws IOException {
         try {
             //AvatarToImageConfig avatarToImageConfig = AvatarToImageConfig.valueOf(name);
-            var imgFile = new ClassPathResource(AVATAR_ROOT_MAPPING + PATH_TO_IMAGE_FOLDER + imageName);
+            var imgFile = new ClassPathResource(PATH_TO_IMAGE_FOLDER + imageName);
             return ResponseEntity
                     .ok()
                     .contentType(MediaType.IMAGE_JPEG)
