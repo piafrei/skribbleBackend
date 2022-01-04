@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.UUID;
 
 import static java.util.Collections.emptyList;
 
@@ -100,5 +101,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
         } else {
             return Optional.empty();
         }
+    }
+
+    public UUID getUserIDByName(String createrUserName) {
+        return getUserEntityByName(createrUserName).getUserID();
     }
 }

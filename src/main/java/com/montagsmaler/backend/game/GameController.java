@@ -40,6 +40,8 @@ public class GameController {
     private ResourceLoader resourceLoader;
     @Resource
     private AvatarService avatarService;
+    @Resource
+    private GameStatisticService gameStatisticService;
 
 
     @RequestMapping(value="/backend/sayhello")
@@ -52,6 +54,12 @@ public class GameController {
         return ResponseEntity.ok().build();
     }
 
+    @RequestMapping(value="/gameStatistic")
+    public List<GameStatisticEntity> getGameStatistic() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String user = authentication.getName();
+        return gameStatisticService.getGameStatisticsForUser(user);
+    }
 
     @PostMapping(value="/backend/game")
     public String createGame() {

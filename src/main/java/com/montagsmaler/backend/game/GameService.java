@@ -3,16 +3,13 @@ package com.montagsmaler.backend.game;
 import com.montagsmaler.backend.game.canvas.Canvas;
 import com.montagsmaler.backend.game.canvas.CanvasRepository;
 import com.montagsmaler.backend.game.datatransferObjects.GameUserDTO;
+import com.montagsmaler.backend.game.datatransferObjects.RankingDTO;
 import com.montagsmaler.backend.game.wordsToGuess.WordService;
 import com.montagsmaler.backend.userManagement.UserDetailServiceImpl;
-import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class GameService {
@@ -30,6 +27,9 @@ public class GameService {
 
     @Resource
     CanvasRepository canvasRepository;
+
+    @Resource
+    GameStatisticRepository gameStatisticRepository;
 
     public Optional<GameEntity> getGameById(String gameId){
         return gameRepository.findById(gameId);
@@ -87,17 +87,33 @@ public class GameService {
         return parsedPlayerToScoreMap;
     }
 
-    void updateOverallPoints(String gameId, Map<String, Integer> roundPoints) {
-        Optional<GameEntity> gameEntity = gameRepository.findById(gameId);
-        if(gameEntity.isPresent()){
-            GameEntity entity = gameEntity.get();
-            Map<String, Integer> playerToOverallScoreMap = entity.getPlayerToOverallScoreMap();
+    Map<String, Integer> updateOverallPoints(GameEntity game, Map<String, Integer> roundPoints) {
+        Map<String, Integer> playerToOverallScoreMap = new HashMap<>();
+        if(game != null){
+            playerToOverallScoreMap = game.getPlayerToOverallScoreMap();
+            System.out.println("roundPoints: " + roundPoints.entrySet());
+            System.out.println("playerToOverallScoreMap: " + playerToOverallScoreMap);
             for (var entry : roundPoints.entrySet()) {
+                System.out.println("entry key"+entry.getKey());
+
                 Integer lastOverallScoreValueForPlayer = playerToOverallScoreMap.get(entry.getKey());
+                System.out.println("lastOverallScoreValueForPlayer: " + playerToOverallScoreMap.get(entry.getKey()));
+
                 playerToOverallScoreMap.put(entry.getKey(),entry.getValue() + lastOverallScoreValueForPlayer);
             }
-            entity.setPlayerToOverallScoreMap(playerToOverallScoreMap);
-            gameRepository.save(entity);
+            System.out.println("updated playerToOverall: "+ playerToOverallScoreMap);
+            game.setPlayerToOverallScoreMap(playerToOverallScoreMap);
+            gameRepository.save(game);
+        }
+
+        return playerToOverallScoreMap;
+    }
+
+    public void updateStatisticsForPlayer(List<RankingDTO> rankingList) {
+        for (RankingDTO rankingDTO : rankingList) {
+            UUID userID = userDetailService.getUserIDByName(rankingDTO.getGameUserDTO().getBenutzername());
+            int statisticEntryCount = gameStatisticRepository.countByUserID(userID);
+            gameStatisticRepository.save(new GameStatisticEntity(userID,statisticEntryCount + 1, new Date(),rankingList.size(),rankingDTO.getScore(),rankingDTO.getScore()));
         }
     }
 }

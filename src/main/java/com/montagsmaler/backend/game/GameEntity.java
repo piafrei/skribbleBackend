@@ -67,6 +67,7 @@ public class GameEntity {
     }
 
     public void setPlayerToOverallScoreMap(Map<String, Integer> playerToOverallScoreMap) {
+        this.playerToOverallScoreMap.clear();
         this.playerToOverallScoreMap = playerToOverallScoreMap;
     }
 

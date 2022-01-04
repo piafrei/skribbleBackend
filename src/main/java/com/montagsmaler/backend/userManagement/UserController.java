@@ -92,8 +92,7 @@ public class UserController {
 
     private AuthenticationResponse prepareAuthenticationResponse(String userName) {
         final UserDetails userDetails = userDetailService.loadUserByUsername(userName);
-        final String jwt = jwtService.generateToken(userDetails);
-        return new AuthenticationResponse(jwt);
+        return jwtService.generateToken(userDetails);
     }
 }
 

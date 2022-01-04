@@ -1,5 +1,6 @@
 package com.montagsmaler.backend.security;
 
+import com.montagsmaler.backend.userManagement.dto.AuthenticationResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -35,14 +36,15 @@ public class JwtService {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public AuthenticationResponse generateToken(UserDetails userDetails) {
+        Date expiration = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10);
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        return new AuthenticationResponse(createToken(claims, userDetails.getUsername(),expiration),expiration);
     }
 
-    private String createToken(Map<String, Object> claims, String subject) {
+    private String createToken(Map<String, Object> claims, String subject, Date expiration) {
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
+                .setExpiration(expiration)
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 

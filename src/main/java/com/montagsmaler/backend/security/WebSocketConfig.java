@@ -36,8 +36,16 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
             public Message<?> preSend(Message<?> message, MessageChannel channel) {
                 StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
                 if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-                    String jwtToken = accessor.getFirstNativeHeader("Authorization");
+                    String jwtToken;
+                    jwtToken = accessor.getFirstNativeHeader("Authorization");
+                    if(jwtToken == null){
+                        jwtToken = accessor.getFirstNativeHeader("login");
+                    }
+                    if(jwtToken == null){
+                        jwtToken = accessor.getFirstNativeHeader("passcode");
+                    }
                     System.out.println("webSocket token is "+ jwtToken);
+                    System.out.println("accessor header "+ accessor.getMessageHeaders());
 
                     String username = null;
                     String jwt = null;
@@ -77,10 +85,6 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/updates").setAllowedOrigins("*");
-        registry.addEndpoint("/updates").setAllowedOrigins("*").withSockJS();
-        registry.addEndpoint("/app").setAllowedOrigins("*");
-        registry.addEndpoint("/app").setAllowedOrigins("*").withSockJS();
         registry.addEndpoint("/game-websocket-connection").setAllowedOrigins("*");
         registry.addEndpoint("/game-websocket-connection").setAllowedOrigins("*").withSockJS();
     }
