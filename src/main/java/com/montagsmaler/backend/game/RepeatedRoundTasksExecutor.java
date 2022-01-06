@@ -43,7 +43,6 @@ public class RepeatedRoundTasksExecutor implements Runnable, ApplicationListener
         /*try
         {*/
             Optional<GameEntity> initialGameEntity = gameService.getGameById(gameId);
-            GameEntity updatedGame = null;
 
             if(initialGameEntity.isPresent()){
                 GameEntity game = initialGameEntity.get();
@@ -51,8 +50,9 @@ public class RepeatedRoundTasksExecutor implements Runnable, ApplicationListener
 
                 while (currentRound <= game.getRounds()){
                     for (String currentDrawer: game.getPlayers()) {
+                        GameEntity preRoundUpdatedGame = gameService.getGameById(gameId).get();
                         GameUserDTO drawer = userDetailService.getGameUserByName(currentDrawer).get();
-                        Gameround gameround = gameService.startRound(game, currentRound, currentDrawer);
+                        Gameround gameround = gameService.startRound(preRoundUpdatedGame, currentRound, currentDrawer);
                         gameController.sendToSpecificUser(game.getGameId(), drawer.getBenutzername(), new DrawerWordActionResponse(gameround.getActiveWord()));
                         gameController.sendScheduledUpdate(game.getGameId(), new NewRoundActionResponse(drawer, gameround.getActiveWord().getWordLenth(), gameround.getRoundNumber()));
 
@@ -77,15 +77,15 @@ public class RepeatedRoundTasksExecutor implements Runnable, ApplicationListener
                         }
                         //System.out.println("okay lets continue");
 
-                        updatedGame = gameService.getGameById(gameId).get();
-                        Map<String, Integer> roundPoints = parseRoundPoints(updatedGame.getActiveRound());
+                        GameEntity updatedGame = gameService.getGameById(gameId).get();
+                        Map<String, Integer> roundPoints = parseRoundPoints(updatedGame.getPlayers(),updatedGame.getActiveRound());
                         Map<String, Integer> overallPoints = gameService.updateOverallPoints(updatedGame, roundPoints);
                         gameController.sendScheduledUpdate(game.getGameId(), new RoundStatisticActionResponse(updatedGame.getActiveRound().getRoundNumber(),gameround.getActiveWord().getValue(), roundPoints, parsePlayerToScoreMap(overallPoints)));
                     }
                     currentRound++;
                 }
-                updatedGame = gameService.getGameById(gameId).get();
-                List<RankingDTO> rankingDTOS = parsePlayerToScoreMap(updatedGame.getPlayerToOverallScoreMap());
+                GameEntity gameResult = gameService.getGameById(gameId).get();
+                List<RankingDTO> rankingDTOS = parsePlayerToScoreMap(gameResult.getPlayerToOverallScoreMap());
                 gameService.updateStatisticsForPlayer(rankingDTOS);
                 gameController.sendScheduledUpdate(gameId,new GameEndedRankingActionResponse(rankingDTOS));
             }
@@ -105,12 +105,20 @@ public class RepeatedRoundTasksExecutor implements Runnable, ApplicationListener
         }
     }
 
-    private Map<String, Integer> parseRoundPoints(Gameround gameround) {
+    private Map<String, Integer> parseRoundPoints(Set<String> players, Gameround gameround) {
         Map<String, Integer> roundPoints = new HashMap<String, Integer>();
         List<String> rightGuessedUser = gameround.getRightGuessedUser();
-        rightGuessedUser.forEach(rigthGuessedUser -> roundPoints.put(rigthGuessedUser, POINTS_FOR_RIGHT_GUESS));
-        int sizeOfRightGuesses = rightGuessedUser.size();
-        roundPoints.put(gameround.getDrawer(), sizeOfRightGuesses * POINTS_FOR_DRAWER_PER_RIGHT_GUESS);
+        players.forEach(player -> {
+            if(gameround.getDrawer().equals(player)){
+                int sizeOfRightGuesses = rightGuessedUser.size();
+                roundPoints.put(player, sizeOfRightGuesses * POINTS_FOR_DRAWER_PER_RIGHT_GUESS);
+            }
+            else if(rightGuessedUser.contains(player)){
+                roundPoints.put(player, POINTS_FOR_RIGHT_GUESS);
+            } else {
+                roundPoints.put(player, 0);
+            }
+        });
         return roundPoints;
     }
 

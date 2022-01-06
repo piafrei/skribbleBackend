@@ -88,32 +88,26 @@ public class GameService {
     }
 
     Map<String, Integer> updateOverallPoints(GameEntity game, Map<String, Integer> roundPoints) {
-        Map<String, Integer> playerToOverallScoreMap = new HashMap<>();
+        Map<String, Integer> updatedPlayerToOverallScoreMap = new HashMap<>();
         if(game != null){
-            playerToOverallScoreMap = game.getPlayerToOverallScoreMap();
-            System.out.println("roundPoints: " + roundPoints.entrySet());
-            System.out.println("playerToOverallScoreMap: " + playerToOverallScoreMap);
+            Map<String, Integer> oldPlayerToOverallScoreMap = game.getPlayerToOverallScoreMap();
             for (var entry : roundPoints.entrySet()) {
-                System.out.println("entry key"+entry.getKey());
-
-                Integer lastOverallScoreValueForPlayer = playerToOverallScoreMap.get(entry.getKey());
-                System.out.println("lastOverallScoreValueForPlayer: " + playerToOverallScoreMap.get(entry.getKey()));
-
-                playerToOverallScoreMap.put(entry.getKey(),entry.getValue() + lastOverallScoreValueForPlayer);
+                Integer lastOverallScoreValueForPlayer = oldPlayerToOverallScoreMap.get(entry.getKey());
+                updatedPlayerToOverallScoreMap.put(entry.getKey(),entry.getValue() + lastOverallScoreValueForPlayer);
             }
-            System.out.println("updated playerToOverall: "+ playerToOverallScoreMap);
-            game.setPlayerToOverallScoreMap(playerToOverallScoreMap);
+            System.out.println("updated playerToOverall: "+ updatedPlayerToOverallScoreMap);
+            game.setPlayerToOverallScoreMap(updatedPlayerToOverallScoreMap);
             gameRepository.save(game);
         }
 
-        return playerToOverallScoreMap;
+        return updatedPlayerToOverallScoreMap;
     }
 
     public void updateStatisticsForPlayer(List<RankingDTO> rankingList) {
         for (RankingDTO rankingDTO : rankingList) {
             UUID userID = userDetailService.getUserIDByName(rankingDTO.getGameUserDTO().getBenutzername());
             int statisticEntryCount = gameStatisticRepository.countByUserID(userID);
-            gameStatisticRepository.save(new GameStatisticEntity(userID,statisticEntryCount + 1, new Date(),rankingList.size(),rankingDTO.getScore(),rankingDTO.getScore()));
+            gameStatisticRepository.save(new GameStatisticEntity(userID,statisticEntryCount + 1, new Date(),rankingList.size(),rankingDTO.getScore(),rankingDTO.getRank()));
         }
     }
 }

@@ -14,6 +14,7 @@ import com.montagsmaler.backend.game.GameService;
 import com.montagsmaler.backend.game.datatransferObjects.GameUserDTO;
 import com.montagsmaler.backend.userManagement.UserDetailServiceImpl;
 import com.montagsmaler.backend.userManagement.UserEntity;
+import com.montagsmaler.backend.userManagement.avatar.Avatar;
 import com.montagsmaler.backend.userManagement.avatar.AvatarService;
 import org.springframework.stereotype.Component;
 
@@ -58,7 +59,8 @@ public class AddUserToGameStrategy implements ActionStrategy {
                 Set<String> players = game.getPlayers();
                 List<GameUserDTO> gameUserList = players.stream().map(player -> {
                     UserEntity user = userDetailService.getUserEntityByName(player);
-                    return new GameUserDTO(user, avatarService.getAvatar( user.getAvatar()));
+                    Avatar avatar = avatarService.getAvatar(user.getAvatar());
+                    return new GameUserDTO(user, avatar);
                 }).collect(Collectors.toList());
                 return Optional.of(new UserJoinedActionResponse(gameUserList, new GameIntermediateStatusDTO(game, canvas, gameService.parsePlayerToScoreMap(game.getPlayerToOverallScoreMap()), game.getRounds()), game.isGameRunning()));
             }

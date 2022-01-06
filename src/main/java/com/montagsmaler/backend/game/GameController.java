@@ -13,6 +13,8 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -69,17 +71,6 @@ public class GameController {
         return gameService.createNewGame(user);
     }
 
-    @PostMapping(value="/backend/structure/{gameId}")
-    public Optional<ActionResponse> structureTest(@RequestBody Action action, @PathVariable String gameId) {
-        ActionStrategy strategy = strategyFactory.findActionStrategyByActionName(action.getActionType());
-        action.setGameId(gameId);
-
-        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        //action.setUsername(authentication.getName());
-        action.setUsername("Maia");
-        return strategy.executeAction(action);
-    }
-
     public void sendScheduledUpdate(String gameId, ActionResponse actionResponse)
     {
         template.convertAndSend("/updates/" + gameId, actionResponse);
@@ -99,8 +90,7 @@ public class GameController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.println(authentication.getName());
 
-        action.setUsername("pia");
-        //action.setUsername(authentication.getName());
+        action.setUsername(authentication.getName());
 
         return strategy.executeAction(action);
     }

@@ -66,9 +66,9 @@ public class GameEntity {
         return playerToOverallScoreMap;
     }
 
-    public void setPlayerToOverallScoreMap(Map<String, Integer> playerToOverallScoreMap) {
+    public void setPlayerToOverallScoreMap(Map<String, Integer> newPlayerToOverallScoreMap) {
         this.playerToOverallScoreMap.clear();
-        this.playerToOverallScoreMap = playerToOverallScoreMap;
+        this.playerToOverallScoreMap = newPlayerToOverallScoreMap;
     }
 
     public String getGameId() {
