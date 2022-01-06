@@ -38,7 +38,7 @@ public class AvatarService {
         if(name != null){
             try {
                 AvatarToImageConfig avatarToImageConfig = AvatarToImageConfig.valueOf(name);
-                return new Avatar(avatarToImageConfig.name(), AVATAR_ROOT_MAPPING + avatarToImageConfig.getAvatarImage());
+                return new Avatar(avatarToImageConfig.name(),  avatarToImageConfig.getAvatarImage());
             } catch (Exception e) {
                 System.out.println("Invalid avatar name");
             }

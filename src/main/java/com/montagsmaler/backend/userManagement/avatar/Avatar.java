@@ -1,5 +1,6 @@
 package com.montagsmaler.backend.userManagement.avatar;
 
+import static com.montagsmaler.backend.game.GameController.AVATAR_ROOT_MAPPING;
 import static com.montagsmaler.backend.game.GameController.PATH_TO_IMAGE_FOLDER;
 
 public class Avatar {
@@ -12,7 +13,7 @@ public class Avatar {
 
     public Avatar(String name, String imagePath) {
         this.name = name;
-        this.imagePath = PATH_TO_IMAGE_FOLDER + imagePath;
+        this.imagePath = AVATAR_ROOT_MAPPING + PATH_TO_IMAGE_FOLDER + imagePath;
     }
 
     public void setToDefaults(){
