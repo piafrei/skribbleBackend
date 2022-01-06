@@ -31,16 +31,6 @@ public class RequestSecurityFilter extends OncePerRequestFilter {
 
         final String authorizationHeader = httpServletRequest.getHeader("Authorization");
         System.out.println(authorizationHeader);
-        Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
-
-        if (headerNames != null) {
-            StringBuilder header = new StringBuilder();
-            while (headerNames.hasMoreElements()) {
-                header.append(" ").append(httpServletRequest.getHeader(headerNames.nextElement()));
-            }
-            System.out.println("Headers: " + header);
-        }
-        System.out.println();
 
         String username = null;
         String jwt = null;

@@ -90,7 +90,11 @@ public class GameController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.println(authentication.getName());
 
-        action.setUsername(authentication.getName());
+        if(authentication.getName() != null){
+            action.setUsername(authentication.getName());
+        } else {
+            action.setUsername("maia");
+        }
 
         return strategy.executeAction(action);
     }

@@ -2,6 +2,7 @@ package com.montagsmaler.backend.security;
 
 import com.montagsmaler.backend.ForbiddenException;
 import com.montagsmaler.backend.userManagement.UserDetailServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -29,27 +30,28 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     @Resource
     private JwtService jwtService;
 
-//    @Override
-//    public void configureClientInboundChannel(ChannelRegistration registration) {
-//        registration.setInterceptors(new ChannelInterceptorAdapter() {
-//            @Override
-//            public Message<?> preSend(Message<?> message, MessageChannel channel) {
-//                StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-//                if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-//                    String jwtToken;
-//                    jwtToken = accessor.getFirstNativeHeader("Authorization");
-//                    if(jwtToken == null){
-//                        jwtToken = accessor.getFirstNativeHeader("login");
-//                    }
-//                    if(jwtToken == null){
-//                        jwtToken = accessor.getFirstNativeHeader("passcode");
-//                    }
-//                    System.out.println("webSocket token is "+ jwtToken);
-//                    System.out.println("accessor header "+ accessor.getMessageHeaders());
-//
-//                    String username = null;
-//                    String jwt = null;
-//
+
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        registration.setInterceptors(new ChannelInterceptorAdapter() {
+            @Override
+            public Message<?> preSend(Message<?> message, MessageChannel channel) {
+                StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+                if (StompCommand.CONNECT.equals(accessor.getCommand())) {
+                    String jwtToken;
+                    jwtToken = accessor.getFirstNativeHeader("Authorization");
+                    if(jwtToken == null){
+                        jwtToken = accessor.getFirstNativeHeader("login");
+                    }
+                    if(jwtToken == null){
+                        jwtToken = accessor.getFirstNativeHeader("passcode");
+                    }
+                    System.out.println("webSocket token is "+ jwtToken);
+                    System.out.println("accessor header "+ accessor.getMessageHeaders());
+
+                    String username = null;
+                    String jwt = null;
+
 //                    if (jwtToken != null && jwtToken.startsWith("Bearer ")) {
 //                        jwt = jwtToken.substring(7);
 //                        username = jwtService.extractUsername(jwt);
@@ -69,11 +71,11 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 //                    } else {
 //                        throw new ForbiddenException();
 //                    }
-//                }
-//                return  message;
-//            }
-//        });
-//    }
+                }
+                return  message;
+            }
+       });
+    }
 
 
     @Override
