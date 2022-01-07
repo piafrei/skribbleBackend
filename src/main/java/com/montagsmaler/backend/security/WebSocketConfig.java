@@ -52,25 +52,25 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
                     String username = null;
                     String jwt = null;
 
-//                    if (jwtToken != null && jwtToken.startsWith("Bearer ")) {
-//                        jwt = jwtToken.substring(7);
-//                        username = jwtService.extractUsername(jwt);
-//
-//                        UserDetails userDetails = userDetailService.loadUserByUsername(username);
-//
-//                        if (jwtService.validateToken(jwt, userDetails)) {
-//
-//                            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-//                                    userDetails, null, userDetails.getAuthorities());
-//                            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-//                            accessor.setUser(usernamePasswordAuthenticationToken);
-//                            return message;
-//                        } else {
-//                            throw new ForbiddenException();
-//                        }
-//                    } else {
-//                        throw new ForbiddenException();
-//                    }
+                    if (jwtToken != null && jwtToken.startsWith("Bearer ")) {
+                        jwt = jwtToken.substring(7);
+                        username = jwtService.extractUsername(jwt);
+
+                        UserDetails userDetails = userDetailService.loadUserByUsername(username);
+
+                        if (jwtService.validateToken(jwt, userDetails)) {
+
+                            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                                    userDetails, null, userDetails.getAuthorities());
+                            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                            accessor.setUser(usernamePasswordAuthenticationToken);
+                            return message;
+                        } else {
+                            throw new ForbiddenException();
+                        }
+                    } else {
+                        throw new ForbiddenException();
+                   }
                 }
                 return  message;
             }
