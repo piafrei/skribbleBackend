@@ -16,7 +16,8 @@ import java.util.*;
 @Component
 public class RepeatedRoundTasksExecutor implements Runnable, ApplicationListener<AllUserGuessedWordEvent> {
     private static final int POINTS_FOR_RIGHT_GUESS = 30;
-    public static final int ONE_MINUTE_IN_MILLI_SEC = 30000;
+    public static final int ONE_MINUTE_IN_MILLI_SEC = 60000;
+    public static final int FIVE_SECONDS_IN_MILLI_SEC = 6000;
     public static final int POINTS_FOR_DRAWER_PER_RIGHT_GUESS = 5;
 
     GameController gameController;
