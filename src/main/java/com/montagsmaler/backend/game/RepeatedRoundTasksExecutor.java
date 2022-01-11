@@ -41,8 +41,8 @@ public class RepeatedRoundTasksExecutor implements Runnable, ApplicationListener
 
     public void run()
     {
-        /*try
-        {*/
+        try
+        {
             Optional<GameEntity> initialGameEntity = gameService.getGameById(gameId);
 
             if(initialGameEntity.isPresent()){
@@ -92,11 +92,11 @@ public class RepeatedRoundTasksExecutor implements Runnable, ApplicationListener
                 gameService.updateStatisticsForPlayer(rankingDTOS);
                 gameController.sendScheduledUpdate(gameId,new GameEndedRankingActionResponse(rankingDTOS));
             }
-        //}
-      /*  catch (Exception e)
+        }
+        catch (Exception e)
         {
             System.out.println("There was a exception! " + e.getStackTrace() + e.getCause() + e.getMessage());
-        }*/
+        }
     }
 
     @Override
