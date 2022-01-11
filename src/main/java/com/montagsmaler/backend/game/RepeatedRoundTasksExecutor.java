@@ -81,9 +81,11 @@ public class RepeatedRoundTasksExecutor implements Runnable, ApplicationListener
                         Map<String, Integer> roundPoints = parseRoundPoints(updatedGame.getPlayers(),updatedGame.getActiveRound());
                         Map<String, Integer> overallPoints = gameService.updateOverallPoints(updatedGame, roundPoints);
                         gameController.sendScheduledUpdate(game.getGameId(), new RoundStatisticActionResponse(updatedGame.getActiveRound().getRoundNumber(),gameround.getActiveWord().getValue(), roundPoints, parsePlayerToScoreMap(overallPoints)));
+                        Thread.sleep(FIVE_SECONDS_IN_MILLI_SEC);
                     }
                     currentRound++;
                 }
+                Thread.sleep(FIVE_SECONDS_IN_MILLI_SEC);
                 GameEntity gameResult = gameService.getGameById(gameId).get();
                 List<RankingDTO> rankingDTOS = parsePlayerToScoreMap(gameResult.getPlayerToOverallScoreMap());
                 gameService.updateStatisticsForPlayer(rankingDTOS);
