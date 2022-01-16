@@ -69,12 +69,12 @@ public class RepeatedRoundTasksExecutor implements Runnable, Observer {
                     GameEntity preRoundUpdatedGame = gameService.getGameById(gameId).get();
                     GameUserDTO drawer = userDetailService.getGameUserByName(currentDrawer).get();
                     Gameround gameround = gameService.startRound(preRoundUpdatedGame, currentRound, currentDrawer);
-                    gameController.sendToSpecificUser(game.getGameId(), drawer.getBenutzername(), new DrawerWordActionResponse(gameround.getActiveWord()));
+                    gameController.sendToSpecificUser(game.getGameId(), drawer.getUsername(), new DrawerWordActionResponse(gameround.getActiveWord()));
                     gameController.sendScheduledUpdate(game.getGameId(), new NewRoundActionResponse(drawer, gameround.getActiveWord().getWordLenth(), gameround.getRoundNumber()));
 
                     try {
                         synchronized (this){
-                            //wait until all user finished or time is up
+                            //wait until all user guessed right or time is up
                             this.wait(ONE_MINUTE_IN_MILLI_SEC);
                         }
                     } catch (InterruptedException e){

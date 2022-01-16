@@ -106,7 +106,7 @@ public class GameService {
 
     public void updateStatisticsForPlayer(List<RankingDTO> rankingList) {
         for (RankingDTO rankingDTO : rankingList) {
-            UUID userID = userDetailService.getUserIDByName(rankingDTO.getGameUserDTO().getBenutzername());
+            UUID userID = userDetailService.getUserIDByName(rankingDTO.getGameUserDTO().getUsername());
             int statisticEntryCount = gameStatisticRepository.countByUserID(userID);
             gameStatisticRepository.save(new GameStatisticEntity(userID,statisticEntryCount + 1, new Date(),rankingList.size(),rankingDTO.getScore(),rankingDTO.getRank()));
         }

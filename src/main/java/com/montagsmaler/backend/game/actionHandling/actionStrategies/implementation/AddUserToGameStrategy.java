@@ -57,12 +57,13 @@ public class AddUserToGameStrategy implements ActionStrategy {
                 GameEntity game = gameEntity.get();
                 CanvasDTO canvas = canvasService.getCanvasDTO(game).get();
                 Set<String> players = game.getPlayers();
+                String host = game.getHost();
                 List<GameUserDTO> gameUserList = players.stream().map(player -> {
                     UserEntity user = userDetailService.getUserEntityByName(player);
                     Avatar avatar = avatarService.getAvatar(user.getAvatar());
-                    return new GameUserDTO(user, avatar);
+                    return new GameUserDTO(user, avatar, player.equals(host));
                 }).collect(Collectors.toList());
-                return Optional.of(new UserJoinedActionResponse(gameUserList, new GameIntermediateStatusDTO(game, canvas, gameService.parsePlayerToScoreMap(game.getPlayerToOverallScoreMap()), game.getRounds()), game.isGameRunning()));
+                return Optional.of(new UserJoinedActionResponse(gameUserList, game.isGameRunning()));
             }
         }
         return Optional.empty();

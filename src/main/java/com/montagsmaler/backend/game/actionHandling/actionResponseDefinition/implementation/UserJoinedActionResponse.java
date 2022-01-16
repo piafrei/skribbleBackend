@@ -12,27 +12,18 @@ public class UserJoinedActionResponse extends ActionResponse {
 
     private boolean hasGameStarted;
     private List<GameUserDTO> allUser;
-    private GameIntermediateStatusDTO gameIntermediateStatus;
+    private List<GameUserDTO> gameOwner;
 
-    public UserJoinedActionResponse(List<GameUserDTO> allUser, GameIntermediateStatusDTO gameIntermediateStatusDTO, boolean hasGameStarted) {
+    public UserJoinedActionResponse(List<GameUserDTO> allUser, boolean hasGameStarted) {
         super(ACTION_RESPONSE_TYPE);
         this.allUser = allUser;
         this.allUser = allUser;
-        this.gameIntermediateStatus = gameIntermediateStatusDTO;
         this.hasGameStarted = hasGameStarted;
     }
 
     @Override
     public ActionResponseType getActionResponseType() {
         return ACTION_RESPONSE_TYPE;
-    }
-
-    public GameIntermediateStatusDTO getGameIntermediateStatus() {
-        return gameIntermediateStatus;
-    }
-
-    public void setGameIntermediateStatus(GameIntermediateStatusDTO gameIntermediateStatus) {
-        this.gameIntermediateStatus = gameIntermediateStatus;
     }
 
     public boolean isHasGameStarted() {
