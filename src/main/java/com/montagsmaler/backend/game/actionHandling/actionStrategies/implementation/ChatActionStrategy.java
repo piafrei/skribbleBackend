@@ -1,6 +1,6 @@
 package com.montagsmaler.backend.game.actionHandling.actionStrategies.implementation;
 
-import com.montagsmaler.backend.game.AllUserGuessedWordEvent;
+import com.montagsmaler.backend.game.gameEvents.AllUserGuessedWordEvent;
 import com.montagsmaler.backend.game.actionHandling.actionInput.Action;
 import com.montagsmaler.backend.game.actionHandling.actionInput.implementation.ChatAction;
 import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.ActionResponse;
@@ -8,6 +8,7 @@ import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.imp
 import com.montagsmaler.backend.game.actionHandling.actionStrategies.ActionStrategy;
 import com.montagsmaler.backend.game.actionHandling.actionStrategies.ActionStrategyName;
 import com.montagsmaler.backend.game.GameService;
+import com.montagsmaler.backend.game.gameEvents.EventHandler;
 import com.montagsmaler.backend.userManagement.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -24,6 +25,9 @@ public class ChatActionStrategy implements ActionStrategy {
     @Resource
     UserDetailServiceImpl userDetailService;
 
+    @Resource
+    EventHandler eventHandler;
+
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
@@ -31,7 +35,7 @@ public class ChatActionStrategy implements ActionStrategy {
     public Optional<ActionResponse> executeAction(Action action) {
         System.out.print("inside chat action");
 
-        if (!(action instanceof ChatAction)){
+        if (!(action instanceof ChatAction)) {
             System.out.println("Wrong action type");
             return Optional.empty();
         }
@@ -39,15 +43,17 @@ public class ChatActionStrategy implements ActionStrategy {
         ChatAction chatAction = (ChatAction) action;
         boolean isWordCorrect = gameService.checkIsWordCorrect(chatAction.getGameId(), chatAction.getMessage(), chatAction.getUsername());
 
-        publishCustomEvent(chatAction.getGameId());
-        ChatActionResponse actionResponse = new ChatActionResponse(chatAction.getMessage(), chatAction.getUsername(), isWordCorrect);
-        return Optional.of(actionResponse);
+        boolean allUserGuessedWord = gameService.checkAllUserGuessedWord(chatAction.getGameId());
+        if (isWordCorrect && allUserGuessedWord) {
+            publishAllUserGuessedWordEvent(chatAction.getGameId());
+        }
+        return Optional.of(new ChatActionResponse(chatAction.getMessage(), chatAction.getUsername(), isWordCorrect));
     }
 
-    public void publishCustomEvent(final String gameId) {
+    private void publishAllUserGuessedWordEvent(final String gameId) {
         System.out.println("Publishing custom event. ");
-        AllUserGuessedWordEvent customSpringEvent = new AllUserGuessedWordEvent(this, gameId);
-        applicationEventPublisher.publishEvent(customSpringEvent);
+        AllUserGuessedWordEvent allUserGuessedWordEvent = new AllUserGuessedWordEvent(gameId);
+        eventHandler.notifyUpdate(allUserGuessedWordEvent);
     }
 
     @Override

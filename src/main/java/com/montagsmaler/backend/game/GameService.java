@@ -59,8 +59,9 @@ public class GameService {
 
     public boolean checkIsWordCorrect(String gameId, String message, String username) {
         Optional<GameEntity> gameEntity = gameRepository.findById(gameId);
-        System.out.println(message + " " + gameEntity.get().getActiveRound().getActiveWord().getValue());
         if(gameEntity.isPresent() && gameEntity.get().getActiveRound().getActiveWord().getValue().equals(message)){
+            System.out.println(message + " " + gameEntity.get().getActiveRound().getActiveWord().getValue());
+
             GameEntity game = gameEntity.get();
             game.getActiveRound().addRightGuessedUser(username);
             gameRepository.save(game);
@@ -109,5 +110,14 @@ public class GameService {
             int statisticEntryCount = gameStatisticRepository.countByUserID(userID);
             gameStatisticRepository.save(new GameStatisticEntity(userID,statisticEntryCount + 1, new Date(),rankingList.size(),rankingDTO.getScore(),rankingDTO.getRank()));
         }
+    }
+
+    public boolean checkAllUserGuessedWord(String gameId) {
+        GameEntity game = gameRepository.findById(gameId).get();
+        return countPlayersWithoudDrawer(game) == game.getActiveRound().getRightGuessedUser().size();
+    }
+
+    private int countPlayersWithoudDrawer(GameEntity game) {
+        return game.getPlayers().size() - 1;
     }
 }

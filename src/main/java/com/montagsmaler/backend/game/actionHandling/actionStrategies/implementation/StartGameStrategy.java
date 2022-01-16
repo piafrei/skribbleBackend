@@ -6,11 +6,9 @@ import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.Act
 import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.implementation.StartGameActionResponse;
 import com.montagsmaler.backend.game.actionHandling.actionStrategies.ActionStrategy;
 import com.montagsmaler.backend.game.actionHandling.actionStrategies.ActionStrategyName;
-import com.montagsmaler.backend.game.GameService;
 import com.montagsmaler.backend.game.RepeatedRoundTasksExecutor;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.Optional;
 
 @Component
@@ -27,7 +25,8 @@ public class StartGameStrategy implements ActionStrategy {
 
         StartGameAction startGameAction = (StartGameAction) action;
 
-        (new Thread(new RepeatedRoundTasksExecutor(action.getGameId(), startGameAction.getRounds()))).start();
+        Thread thread = new Thread(new RepeatedRoundTasksExecutor(action.getGameId(), startGameAction.getRounds()));
+        thread.start();
 
         return Optional.of(new StartGameActionResponse());
     }
@@ -37,3 +36,4 @@ public class StartGameStrategy implements ActionStrategy {
         return ActionStrategyName.StartGameActionStrategy;
     }
 }
+

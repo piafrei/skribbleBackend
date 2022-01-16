@@ -1,97 +1,101 @@
 package com.montagsmaler.backend.game;
 
+import com.montagsmaler.backend.game.gameEvents.EventHandler;
+import com.montagsmaler.backend.game.gameEvents.Observer;
 import com.montagsmaler.backend.game.datatransferObjects.GameUserDTO;
 import com.montagsmaler.backend.game.datatransferObjects.RankingDTO;
+import com.montagsmaler.backend.game.gameEvents.AllUserGuessedWordEvent;
+import com.montagsmaler.backend.game.gameEvents.GameEvent;
 import com.montagsmaler.backend.helper.SpringContext;
 import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.implementation.DrawerWordActionResponse;
 import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.implementation.GameEndedRankingActionResponse;
 import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.implementation.NewRoundActionResponse;
 import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.implementation.RoundStatisticActionResponse;
 import com.montagsmaler.backend.userManagement.UserDetailServiceImpl;
-import org.springframework.context.ApplicationListener;
-import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.*;
 
-@Component
-public class RepeatedRoundTasksExecutor implements Runnable, ApplicationListener<AllUserGuessedWordEvent> {
+public class RepeatedRoundTasksExecutor implements Runnable, Observer {
     private static final int POINTS_FOR_RIGHT_GUESS = 30;
     public static final int ONE_MINUTE_IN_MILLI_SEC = 60000;
     public static final int FIVE_SECONDS_IN_MILLI_SEC = 6000;
     public static final int POINTS_FOR_DRAWER_PER_RIGHT_GUESS = 5;
 
-    GameController gameController;
-    GameService gameService;
-    UserDetailServiceImpl userDetailService;
+    @Resource
+    private GameController gameController;
+    @Resource
+    private GameService gameService;
+    @Resource
+    private EventHandler eventHandler;
+    @Resource
+    private UserDetailServiceImpl userDetailService;
+
+    public String getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
+    }
+
     String gameId;
     int rounds;
-    private static final Object foo = new Object();
-    boolean allPlayersGuessedRight = false;
-
-    public RepeatedRoundTasksExecutor(){
-    }
 
     public RepeatedRoundTasksExecutor(String gameId, int rounds) {
         this.gameController = SpringContext.getBean(GameController.class);
         this.gameService = SpringContext.getBean(GameService.class);
         this.userDetailService = SpringContext.getBean(UserDetailServiceImpl.class);
+        this.eventHandler = SpringContext.getBean(EventHandler.class);
         this.gameId = gameId;
         this.rounds = rounds;
+
+        this.eventHandler.attach(this);
     }
 
     public void run()
     {
         try
         {
-            Optional<GameEntity> initialGameEntity = gameService.getGameById(gameId);
+        System.out.println(gameId);
+        Optional<GameEntity> initialGameEntity = gameService.getGameById(gameId);
 
-            if(initialGameEntity.isPresent()){
-                GameEntity game = initialGameEntity.get();
-                int currentRound = 1;
+        if(initialGameEntity.isPresent()){
+            GameEntity game = initialGameEntity.get();
+            int currentRound = 1;
 
-                while (currentRound <= game.getRounds()){
-                    for (String currentDrawer: game.getPlayers()) {
-                        GameEntity preRoundUpdatedGame = gameService.getGameById(gameId).get();
-                        GameUserDTO drawer = userDetailService.getGameUserByName(currentDrawer).get();
-                        Gameround gameround = gameService.startRound(preRoundUpdatedGame, currentRound, currentDrawer);
-                        gameController.sendToSpecificUser(game.getGameId(), drawer.getBenutzername(), new DrawerWordActionResponse(gameround.getActiveWord()));
-                        gameController.sendScheduledUpdate(game.getGameId(), new NewRoundActionResponse(drawer, gameround.getActiveWord().getWordLenth(), gameround.getRoundNumber()));
+            while (currentRound <= game.getRounds()){
+                for (String currentDrawer: game.getPlayers()) {
+                    GameEntity preRoundUpdatedGame = gameService.getGameById(gameId).get();
+                    GameUserDTO drawer = userDetailService.getGameUserByName(currentDrawer).get();
+                    Gameround gameround = gameService.startRound(preRoundUpdatedGame, currentRound, currentDrawer);
+                    gameController.sendToSpecificUser(game.getGameId(), drawer.getBenutzername(), new DrawerWordActionResponse(gameround.getActiveWord()));
+                    gameController.sendScheduledUpdate(game.getGameId(), new NewRoundActionResponse(drawer, gameround.getActiveWord().getWordLenth(), gameround.getRoundNumber()));
 
-                        System.out.println("lets wait a min");
-                         /*   try {
-                                synchronized (foo){
-                                    while (!allPlayersGuessedRight){
-                                        System.out.println("okay lets wait in sync");
-                                        foo.wait();
-                                    }
-                                    //continue
-                                    System.out.println("okay lets continue in sync");
-                                }
-                            } catch (InterruptedException e){
-                                e.printStackTrace();
-                            }*/
-
-                        try {
-                            Thread.sleep(ONE_MINUTE_IN_MILLI_SEC);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                    try {
+                        synchronized (this){
+                            //wait until all user finished or time is up
+                            this.wait(ONE_MINUTE_IN_MILLI_SEC);
                         }
-                        //System.out.println("okay lets continue");
-
-                        GameEntity updatedGame = gameService.getGameById(gameId).get();
-                        Map<String, Integer> roundPoints = parseRoundPoints(updatedGame.getPlayers(),updatedGame.getActiveRound());
-                        Map<String, Integer> overallPoints = gameService.updateOverallPoints(updatedGame, roundPoints);
-                        gameController.sendScheduledUpdate(game.getGameId(), new RoundStatisticActionResponse(updatedGame.getActiveRound().getRoundNumber(),gameround.getActiveWord().getValue(), roundPoints, parsePlayerToScoreMap(overallPoints)));
-                        Thread.sleep(FIVE_SECONDS_IN_MILLI_SEC);
+                    } catch (InterruptedException e){
+                        e.printStackTrace();
                     }
-                    currentRound++;
+                    GameEntity updatedGame = gameService.getGameById(gameId).get();
+                    Map<String, Integer> roundPoints = parseRoundPoints(updatedGame.getPlayers(),updatedGame.getActiveRound());
+                    Map<String, Integer> overallPoints = gameService.updateOverallPoints(updatedGame, roundPoints);
+                    gameController.sendScheduledUpdate(game.getGameId(), new RoundStatisticActionResponse(updatedGame.getActiveRound().getRoundNumber(),gameround.getActiveWord().getValue(), roundPoints, parsePlayerToScoreMap(overallPoints)));
+                    Thread.sleep(FIVE_SECONDS_IN_MILLI_SEC);
                 }
-                Thread.sleep(FIVE_SECONDS_IN_MILLI_SEC);
-                GameEntity gameResult = gameService.getGameById(gameId).get();
-                List<RankingDTO> rankingDTOS = parsePlayerToScoreMap(gameResult.getPlayerToOverallScoreMap());
-                gameService.updateStatisticsForPlayer(rankingDTOS);
-                gameController.sendScheduledUpdate(gameId,new GameEndedRankingActionResponse(rankingDTOS));
+                currentRound++;
             }
+            Thread.sleep(FIVE_SECONDS_IN_MILLI_SEC);
+
+            GameEntity gameResult = gameService.getGameById(gameId).get();
+            List<RankingDTO> rankingDTOS = parsePlayerToScoreMap(gameResult.getPlayerToOverallScoreMap());
+            gameService.updateStatisticsForPlayer(rankingDTOS);
+            gameController.sendScheduledUpdate(gameId,new GameEndedRankingActionResponse(rankingDTOS));
+            this.eventHandler.detach(this);
+        }
         }
         catch (Exception e)
         {
@@ -99,13 +103,24 @@ public class RepeatedRoundTasksExecutor implements Runnable, ApplicationListener
         }
     }
 
+
     @Override
-    public void onApplicationEvent(AllUserGuessedWordEvent event) {
-        System.out.println("Received spring custom event - " + event.getGameId());
-        synchronized (foo){
-            allPlayersGuessedRight = true;
-            foo.notify();
+    public void update(GameEvent event) {
+        System.out.println("Subscriber :: " + event.getGameId());
+        if(event instanceof AllUserGuessedWordEvent){
+            continuePausedThreadExecuter();
         }
+    }
+
+    private void continuePausedThreadExecuter() {
+        synchronized (this){
+            this.notifyAll();
+        }
+    }
+
+    @Override
+    public String getGameObserverIdentifier() {
+        return gameId;
     }
 
     private Map<String, Integer> parseRoundPoints(Set<String> players, Gameround gameround) {
