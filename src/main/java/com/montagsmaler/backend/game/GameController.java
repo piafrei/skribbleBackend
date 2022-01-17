@@ -38,7 +38,11 @@ public class GameController {
     @PostMapping(value="/backend/game")
     public String createGame() {
         String user = getUserNameFromContext();
-        return gameService.createNewGame(user);
+        String newGame = gameService.createNewGame(user);
+        //just for easier testing
+        gameService.addUserToGame(newGame,"pia");
+        gameService.addUserToGame(newGame,"mia");
+        return newGame;
     }
 
     @MessageMapping("/game/{gameId}")
