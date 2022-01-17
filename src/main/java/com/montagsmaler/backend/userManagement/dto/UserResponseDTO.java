@@ -1,6 +1,7 @@
-package com.montagsmaler.backend.userManagement;
+package com.montagsmaler.backend.userManagement.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.montagsmaler.backend.userManagement.UserEntity;
 import com.montagsmaler.backend.userManagement.avatar.Avatar;
 
 import javax.validation.constraints.NotBlank;

@@ -1,6 +1,7 @@
-package com.montagsmaler.backend.security;
+package com.montagsmaler.backend.security.websocket;
 
 import com.montagsmaler.backend.customexeptions.ForbiddenException;
+import com.montagsmaler.backend.security.JwtService;
 import com.montagsmaler.backend.userManagement.UserDetailServiceImpl;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;

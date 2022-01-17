@@ -1,7 +1,6 @@
 package com.montagsmaler.backend.userManagement;
 
-import com.montagsmaler.backend.userManagement.dto.AuthenticationRequest;
-import com.montagsmaler.backend.userManagement.dto.AuthenticationResponse;
+import com.montagsmaler.backend.userManagement.dto.*;
 import com.montagsmaler.backend.helper.ValidationError;
 import com.montagsmaler.backend.security.JwtService;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -40,7 +39,7 @@ public class UserController {
 
     @PostMapping(value="/signup")
     public ResponseEntity userSignUp(@RequestBody @Valid UserDTO user) {
-        String userName = user.getBenutzername();
+        String userName = user.getUsername();
         boolean userNameAlreadyInUse = userDetailService.getUserByName(userName).isPresent();
 
         if(!userNameAlreadyInUse){

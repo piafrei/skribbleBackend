@@ -25,7 +25,7 @@ public class StartGameStrategy implements ActionStrategy {
 
         StartGameAction startGameAction = (StartGameAction) action;
 
-        Thread thread = new Thread(new RepeatedRoundTasksExecutor(action.getGameId(), startGameAction.getRounds()));
+        Thread thread = new Thread(new RepeatedRoundTasksExecutor(action.getGameId()));
         thread.start();
 
         return Optional.of(new StartGameActionResponse());

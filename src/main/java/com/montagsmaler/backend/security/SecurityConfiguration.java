@@ -20,8 +20,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import javax.annotation.Resource;
 import java.util.Arrays;
 
-import static com.montagsmaler.backend.game.GameController.PATH_TO_IMAGE_FOLDER;
-
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Resource

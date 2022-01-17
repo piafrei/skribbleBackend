@@ -2,6 +2,9 @@ package com.montagsmaler.backend.userManagement;
 
 import com.montagsmaler.backend.game.datatransferObjects.GameUserDTO;
 import com.montagsmaler.backend.userManagement.avatar.AvatarService;
+import com.montagsmaler.backend.userManagement.dto.UserDTO;
+import com.montagsmaler.backend.userManagement.dto.UserResponseDTO;
+import com.montagsmaler.backend.userManagement.dto.UserUpdateDTO;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

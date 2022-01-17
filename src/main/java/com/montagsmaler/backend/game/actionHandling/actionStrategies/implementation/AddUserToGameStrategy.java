@@ -24,8 +24,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.montagsmaler.backend.game.GameController.AVATAR_ROOT_MAPPING;
-
 @Component
 public class AddUserToGameStrategy implements ActionStrategy {
     @Resource

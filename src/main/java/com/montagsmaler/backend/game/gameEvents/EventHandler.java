@@ -18,10 +18,10 @@ public class EventHandler {
         observers.remove(o);
     }
 
-    public void notifyUpdate(AllUserGuessedWordEvent m) {
-        for(Observer o: observers) {
-            if(m.getGameId().equals(o.getGameObserverIdentifier())){
-                o.update(m);
+    public void notifyUpdate(GameEvent gameEvent) {
+        for(Observer observer: observers) {
+            if(gameEvent.getGameId().equals(observer.getGameObserverIdentifier())){
+                observer.update(gameEvent);
             }
         }
     }

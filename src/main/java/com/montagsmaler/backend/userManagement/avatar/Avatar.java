@@ -1,7 +1,7 @@
 package com.montagsmaler.backend.userManagement.avatar;
 
-import static com.montagsmaler.backend.game.GameController.AVATAR_ROOT_MAPPING;
-import static com.montagsmaler.backend.game.GameController.PATH_TO_IMAGE_FOLDER;
+import static com.montagsmaler.backend.userManagement.avatar.AvatarController.AVATAR_ROOT_MAPPING;
+import static com.montagsmaler.backend.userManagement.avatar.AvatarController.PATH_TO_IMAGE_FOLDER;
 
 public class Avatar {
 

@@ -4,6 +4,7 @@ import com.montagsmaler.backend.game.wordsToGuess.Category;
 import com.montagsmaler.backend.game.wordsToGuess.Difficulty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 
@@ -89,5 +90,16 @@ public class GameEntity {
 
     public boolean isGameRunning(){
         return activeRound != null;
+    }
+
+    public String removePlayerFromGame(String username){
+        playerToOverallScoreMap.remove(username);
+        if(activeRound != null){
+            activeRound.removeUser(username);
+        }
+        if (username.equals(host) && !CollectionUtils.isEmpty(getPlayers())){
+            host = getPlayers().iterator().next();
+        }
+        return host;
     }
 }

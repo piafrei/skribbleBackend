@@ -1,4 +1,4 @@
-package com.montagsmaler.backend.userManagement;
+package com.montagsmaler.backend.userManagement.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -13,6 +13,9 @@ import java.util.*;
 
 @Service
 public class GameService {
+    private static final int POINTS_FOR_RIGHT_GUESS = 30;
+    public static final int POINTS_FOR_DRAWER_PER_RIGHT_GUESS = 5;
+
     @Resource
     UserDetailServiceImpl userDetailsService;
 
@@ -119,5 +122,61 @@ public class GameService {
 
     private int countPlayersWithoudDrawer(GameEntity game) {
         return game.getPlayers().size() - 1;
+    }
+
+    public Optional<String> getGameIDByUser(String username) {
+        GameEntity gameEntity = gameRepository.findByPlayerToOverallScoreMapIsContaining(username);
+        if(gameEntity != null){
+            return Optional.of((gameEntity.getGameId()));
+        }
+        return Optional.empty();
+    }
+
+    public void deleteById(String gameId) {
+        gameRepository.deleteById(gameId);
+    }
+
+    public String removeUserFromGame(String gameID, String userName) {
+        Optional<GameEntity> gameById = getGameById(gameID);
+        if(gameById.isPresent()){
+            GameEntity gameEntity = gameById.get();
+            String host = gameEntity.removePlayerFromGame(userName);
+            gameRepository.save(gameEntity);
+            return host;
+        }
+
+        return "";
+    }
+
+    public Map<String, Integer> parseRoundPoints(Set<String> players, Gameround gameround) {
+        Map<String, Integer> roundPoints = new HashMap<String, Integer>();
+        List<String> rightGuessedUser = gameround.getRightGuessedUser();
+        players.forEach(player -> {
+            if(gameround.getDrawer().equals(player)){
+                int sizeOfRightGuesses = rightGuessedUser.size();
+                roundPoints.put(player, sizeOfRightGuesses * POINTS_FOR_DRAWER_PER_RIGHT_GUESS);
+            }
+            else if(rightGuessedUser.contains(player)){
+                roundPoints.put(player, POINTS_FOR_RIGHT_GUESS);
+            } else {
+                roundPoints.put(player, 0);
+            }
+        });
+        return roundPoints;
+    }
+
+    public List<RankingDTO> parseRankingList(Map<String, Integer> playerToScoreMap) {
+        List<RankingDTO> rankingDTOList = new ArrayList<>();
+
+        final int[] rank = {1};
+        playerToScoreMap.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .forEachOrdered(entry -> {
+                    rankingDTOList.add(new RankingDTO(rank[0],userDetailService.getGameUserByName(entry.getKey()).get(),entry.getValue()));
+                    rank[0]++;
+                });
+
+        return rankingDTOList;
     }
 }

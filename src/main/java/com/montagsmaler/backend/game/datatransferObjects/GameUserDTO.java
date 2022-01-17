@@ -6,9 +6,9 @@ import com.montagsmaler.backend.userManagement.avatar.Avatar;
 public class GameUserDTO {
     private String username;
     private Avatar avatar;
-    private Boolean isHost;
+    private boolean isHost;
 
-    public GameUserDTO(UserEntity userEntity, Avatar avatar, Boolean isHost) {
+    public GameUserDTO(UserEntity userEntity, Avatar avatar, boolean isHost) {
         this.username = userEntity.getUserName();
         this.avatar = avatar;
         this.isHost = isHost;

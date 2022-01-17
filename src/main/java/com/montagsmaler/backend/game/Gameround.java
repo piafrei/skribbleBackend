@@ -47,4 +47,8 @@ public class Gameround {
     public void addRightGuessedUser(String rightGuessedUser) {
         this.rightGuessedUser.add(rightGuessedUser);
     }
+
+    public void removeUser(String username){
+        this.rightGuessedUser.remove(username);
+    }
 }

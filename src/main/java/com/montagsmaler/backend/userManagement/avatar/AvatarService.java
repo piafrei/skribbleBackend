@@ -1,17 +1,11 @@
 package com.montagsmaler.backend.userManagement.avatar;
 
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.montagsmaler.backend.game.GameController.AVATAR_ROOT_MAPPING;
-import static com.montagsmaler.backend.game.GameController.PATH_TO_IMAGE_FOLDER;
 
 @Service
 public class AvatarService {

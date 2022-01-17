@@ -1,9 +1,8 @@
 package com.montagsmaler.backend.userManagement;
 
-import com.montagsmaler.backend.userManagement.avatar.Avatar;
+import com.montagsmaler.backend.userManagement.dto.UserDTO;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.util.StringUtils;
 
 import java.util.UUID;
 
@@ -26,7 +25,7 @@ public class UserEntity {
 
     public UserEntity(UserDTO user){
         this.userID = UUID.randomUUID();
-        this.userName = user.getBenutzername();;
+        this.userName = user.getUsername();;
         this.password = user.getPasswort();
         this.avatar = user.getAvatar();
     }
