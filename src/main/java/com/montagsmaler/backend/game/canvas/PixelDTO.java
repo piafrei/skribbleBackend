@@ -2,7 +2,7 @@ package com.montagsmaler.backend.game.canvas;
 
 public class PixelDTO {
     Pencilweight pencilweight;
-    Drawcolor drawcolor;
+    String drawcolor;
     int yStartPosition;
     int xStartPosition;
     int yEndPosition;
@@ -45,11 +45,11 @@ public class PixelDTO {
     }
 
 
-    public Drawcolor getDrawcolor() {
+    public String getDrawcolor() {
         return drawcolor;
     }
 
-    public void setDrawcolor(Drawcolor drawcolor) {
+    public void setDrawcolor(String drawcolor) {
         this.drawcolor = drawcolor;
     }
 

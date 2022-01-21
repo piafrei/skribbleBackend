@@ -7,11 +7,11 @@ import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.Act
 import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.implementation.DrawActionResponse;
 import com.montagsmaler.backend.game.actionHandling.actionStrategies.ActionStrategy;
 import com.montagsmaler.backend.game.actionHandling.actionStrategies.ActionStrategyName;
+import com.montagsmaler.backend.game.canvas.Drawcolor;
 import com.montagsmaler.backend.game.canvas.PixelDTO;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -29,8 +29,23 @@ public class DrawActionStrategy implements ActionStrategy {
         }
 
         DrawAction drawAction = (DrawAction) action;
-        canvasService.updatePixel(action.getGameId(), drawAction.getPixelToUpdate());
-        return Optional.of(new DrawActionResponse(drawAction.getPixelToUpdate()));
+        PixelDTO pixelToUpdate = drawAction.getPixelToUpdate();
+        validateDrawColor(pixelToUpdate);
+        canvasService.updatePixel(action.getGameId(), pixelToUpdate);
+        return Optional.of(new DrawActionResponse(pixelToUpdate));
+    }
+
+    private void validateDrawColor(PixelDTO pixelToUpdate) {
+        String hexCodeForColor = pixelToUpdate.getDrawcolor();
+        Drawcolor drawcolor = Drawcolor.fromString(hexCodeForColor);
+        boolean inputHexCodeIsInvalidColor = !drawcolor.getHexcode().equals(hexCodeForColor);
+        if (inputHexCodeIsInvalidColor){
+            setPixelColorToReturnedDefaultColor(pixelToUpdate, drawcolor);
+        }
+    }
+
+    private void setPixelColorToReturnedDefaultColor(PixelDTO pixelToUpdate, Drawcolor drawcolor) {
+        pixelToUpdate.setDrawcolor(drawcolor.getHexcode());
     }
 
     @Override

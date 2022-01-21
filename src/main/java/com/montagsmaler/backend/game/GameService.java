@@ -4,6 +4,8 @@ import com.montagsmaler.backend.game.canvas.Canvas;
 import com.montagsmaler.backend.game.canvas.CanvasRepository;
 import com.montagsmaler.backend.game.datatransferObjects.GameUserDTO;
 import com.montagsmaler.backend.game.datatransferObjects.RankingDTO;
+import com.montagsmaler.backend.game.gamestatistics.GameStatisticEntity;
+import com.montagsmaler.backend.game.gamestatistics.GameStatisticRepository;
 import com.montagsmaler.backend.game.wordsToGuess.WordService;
 import com.montagsmaler.backend.userManagement.UserDetailServiceImpl;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.montagsmaler.backend.security.websocket;
+package com.montagsmaler.backend.configuration.websocket;
 
 import com.montagsmaler.backend.game.GameService;
 import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.implementation.UserDisconnectedActionResponse;

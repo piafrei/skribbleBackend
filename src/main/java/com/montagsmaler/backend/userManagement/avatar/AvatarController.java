@@ -1,7 +1,6 @@
 package com.montagsmaler.backend.userManagement.avatar;
 
-import com.montagsmaler.backend.userManagement.avatar.AvatarService;
-import org.springframework.core.io.ClassPathResource;
+ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

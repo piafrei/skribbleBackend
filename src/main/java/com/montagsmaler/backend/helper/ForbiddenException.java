@@ -1,4 +1,4 @@
-package com.montagsmaler.backend.customexeptions;
+package com.montagsmaler.backend.helper;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

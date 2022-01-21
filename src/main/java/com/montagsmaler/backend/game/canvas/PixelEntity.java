@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class PixelEntity {
-    Drawcolor drawcolor;
+    String drawcolor;
     Pencilweight pencilweight;
     @Id
     PixelIdentifier pixelIdentifier;
@@ -24,11 +24,11 @@ public class PixelEntity {
         this.pencilweight = pencilweight;
     }
 
-    public Drawcolor getDrawcolor() {
+    public String getDrawcolor() {
         return drawcolor;
     }
 
-    public void setDrawcolor(Drawcolor drawcolor) {
+    public void setDrawcolor(String drawcolor) {
         this.drawcolor = drawcolor;
     }
 

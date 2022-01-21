@@ -1,6 +1,5 @@
-package com.montagsmaler.backend.game;
+package com.montagsmaler.backend.game.gamestatistics;
 
-import com.montagsmaler.backend.userManagement.UserEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

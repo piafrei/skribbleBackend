@@ -1,4 +1,4 @@
-package com.montagsmaler.backend.security.websocket;
+package com.montagsmaler.backend.configuration.websocket;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;

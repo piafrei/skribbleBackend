@@ -1,4 +1,4 @@
-package com.montagsmaler.backend.game;
+package com.montagsmaler.backend.game.gamestatistics;
 
 import com.montagsmaler.backend.game.Gameround;
 import com.montagsmaler.backend.game.wordsToGuess.Category;

@@ -1,4 +1,4 @@
-package com.montagsmaler.backend.security;
+package com.montagsmaler.backend.configuration;
 
 import com.montagsmaler.backend.userManagement.UserDetailServiceImpl;
 import org.springframework.context.annotation.Lazy;
@@ -15,7 +15,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Enumeration;
 
 @Component
 public class RequestSecurityFilter extends OncePerRequestFilter {

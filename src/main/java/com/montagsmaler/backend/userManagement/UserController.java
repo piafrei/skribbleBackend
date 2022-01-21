@@ -2,7 +2,7 @@ package com.montagsmaler.backend.userManagement;
 
 import com.montagsmaler.backend.userManagement.dto.*;
 import com.montagsmaler.backend.helper.ValidationError;
-import com.montagsmaler.backend.security.JwtService;
+import com.montagsmaler.backend.configuration.JwtService;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

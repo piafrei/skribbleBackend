@@ -1,4 +1,4 @@
-package com.montagsmaler.backend.security;
+package com.montagsmaler.backend.configuration;
 
 import com.montagsmaler.backend.userManagement.dto.AuthenticationResponse;
 import io.jsonwebtoken.Claims;

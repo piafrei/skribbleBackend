@@ -1,4 +1,4 @@
-package com.montagsmaler.backend.security;
+package com.montagsmaler.backend.configuration;
 
 import com.montagsmaler.backend.userManagement.UserDetailServiceImpl;
 import org.springframework.context.annotation.Bean;
@@ -15,10 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
-import org.springframework.web.cors.CorsConfiguration;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
