@@ -14,6 +14,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
+    private static final int TEN_HOURS_IN_MILLI_SEC = 1000 * 60 * 60 * 10;
     private String SECRET_KEY = "secret";
 
     public String extractUsername(String token) {
@@ -37,7 +38,7 @@ public class JwtService {
     }
 
     public AuthenticationResponse generateToken(UserDetails userDetails) {
-        Date expiration = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10);
+        Date expiration = new Date(System.currentTimeMillis() + TEN_HOURS_IN_MILLI_SEC);
         Map<String, Object> claims = new HashMap<>();
         return new AuthenticationResponse(createToken(claims, userDetails.getUsername(),expiration),expiration);
     }

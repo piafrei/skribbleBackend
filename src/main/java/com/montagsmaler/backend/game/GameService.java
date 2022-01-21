@@ -16,31 +16,29 @@ import java.util.*;
 @Service
 public class GameService {
     private static final int POINTS_FOR_RIGHT_GUESS = 30;
-    public static final int POINTS_FOR_DRAWER_PER_RIGHT_GUESS = 5;
+    private static final int POINTS_FOR_DRAWER_PER_RIGHT_GUESS = 5;
+
 
     @Resource
-    UserDetailServiceImpl userDetailsService;
+    private GameRepository gameRepository;
 
     @Resource
-    GameRepository gameRepository;
+    private WordService wordService;
 
     @Resource
-    WordService wordService;
+    private UserDetailServiceImpl userDetailService;
 
     @Resource
-    UserDetailServiceImpl userDetailService;
+    private CanvasRepository canvasRepository;
 
     @Resource
-    CanvasRepository canvasRepository;
+    private GameStatisticRepository gameStatisticRepository;
 
-    @Resource
-    GameStatisticRepository gameStatisticRepository;
-
-    public Optional<GameEntity> getGameById(String gameId){
+    Optional<GameEntity> getGameById(String gameId){
         return gameRepository.findById(gameId);
     }
 
-    public String createNewGame(String createrUserName) {
+    String createNewGame(String createrUserName) {
         GameEntity game = new GameEntity();
         game.addPlayer(createrUserName);
         game.setHost(createrUserName);
@@ -75,7 +73,7 @@ public class GameService {
         return false;
     }
 
-    public Gameround startRound(GameEntity game, int roundNumber, String player) {
+    Gameround startRound(GameEntity game, int roundNumber, String player) {
         Gameround activeRound = new Gameround();
         activeRound.setRoundNumber(roundNumber);
         activeRound.setActiveWord(wordService.getRandomWord());
@@ -109,7 +107,7 @@ public class GameService {
         return updatedPlayerToOverallScoreMap;
     }
 
-    public void updateStatisticsForPlayer(List<RankingDTO> rankingList) {
+    void updateStatisticsForPlayer(List<RankingDTO> rankingList) {
         for (RankingDTO rankingDTO : rankingList) {
             UUID userID = userDetailService.getUserIDByName(rankingDTO.getGameUserDTO().getUsername());
             int statisticEntryCount = gameStatisticRepository.countByUserID(userID);
@@ -134,7 +132,7 @@ public class GameService {
         return Optional.empty();
     }
 
-    public void deleteById(String gameId) {
+    void deleteById(String gameId) {
         gameRepository.deleteById(gameId);
     }
 
@@ -150,7 +148,7 @@ public class GameService {
         return "";
     }
 
-    public Map<String, Integer> parseRoundPoints(Set<String> players, Gameround gameround) {
+    Map<String, Integer> parseRoundPoints(Set<String> players, Gameround gameround) {
         Map<String, Integer> roundPoints = new HashMap<String, Integer>();
         List<String> rightGuessedUser = gameround.getRightGuessedUser();
         players.forEach(player -> {
@@ -167,7 +165,7 @@ public class GameService {
         return roundPoints;
     }
 
-    public List<RankingDTO> parseRankingList(Map<String, Integer> playerToScoreMap) {
+    List<RankingDTO> parseRankingList(Map<String, Integer> playerToScoreMap) {
         List<RankingDTO> rankingDTOList = new ArrayList<>();
 
         final int[] rank = {1};

@@ -24,6 +24,10 @@ import javax.annotation.Resource;
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
+    private static final String AUTH_HEADERKEY_AUTHORIZATION = "Authorization";
+    private static final String AUTH_HEADERKEY_LOGIN = "login";
+    private static final String AUTH_HEADERKEY_PASSCODE = "passcode";
+
     @Resource
     private UserDetailServiceImpl userDetailService;
 
@@ -39,15 +43,13 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
                 StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
                 if (StompCommand.CONNECT.equals(accessor.getCommand())) {
                     String jwtToken;
-                    jwtToken = accessor.getFirstNativeHeader("Authorization");
+                    jwtToken = accessor.getFirstNativeHeader(AUTH_HEADERKEY_AUTHORIZATION);
                     if(jwtToken == null){
-                        jwtToken = accessor.getFirstNativeHeader("login");
+                        jwtToken = accessor.getFirstNativeHeader(AUTH_HEADERKEY_LOGIN);
                     }
                     if(jwtToken == null){
-                        jwtToken = accessor.getFirstNativeHeader("passcode");
+                        jwtToken = accessor.getFirstNativeHeader(AUTH_HEADERKEY_PASSCODE);
                     }
-                    System.out.println("webSocket token is "+ jwtToken);
-                    System.out.println("accessor header "+ accessor.getMessageHeaders());
 
                     String username = null;
                     String jwt = null;

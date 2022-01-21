@@ -37,7 +37,6 @@ public class WebSocketDisconnectHandler implements ApplicationListener<SessionDi
                 String host = gameService.removeUserFromGame(id, userName);
                 eventHandler.notifyUpdate(new UserDisconnectedEvent(id, userName, host));
                 messageService.sendScheduledUpdate(id,new UserDisconnectedActionResponse(userName, host));
-
             });
         }
     }
