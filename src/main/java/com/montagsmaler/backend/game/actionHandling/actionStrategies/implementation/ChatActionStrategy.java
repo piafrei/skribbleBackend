@@ -48,7 +48,6 @@ public class ChatActionStrategy implements ActionStrategy {
     }
 
     private void publishAllUserGuessedWordEvent(final String gameId) {
-        System.out.println("Publishing custom event. ");
         AllUserGuessedWordEvent allUserGuessedWordEvent = new AllUserGuessedWordEvent(gameId);
         eventHandler.notifyUpdate(allUserGuessedWordEvent);
     }

@@ -63,8 +63,6 @@ public class GameService {
     public boolean checkIsWordCorrect(String gameId, String message, String username) {
         Optional<GameEntity> gameEntity = gameRepository.findById(gameId);
         if(gameEntity.isPresent() && gameEntity.get().getActiveRound().getActiveWord().getValue().equals(message)){
-            System.out.println(message + " " + gameEntity.get().getActiveRound().getActiveWord().getValue());
-
             GameEntity game = gameEntity.get();
             game.getActiveRound().addRightGuessedUser(username);
             gameRepository.save(game);
@@ -99,7 +97,6 @@ public class GameService {
                 Integer lastOverallScoreValueForPlayer = oldPlayerToOverallScoreMap.get(entry.getKey());
                 updatedPlayerToOverallScoreMap.put(entry.getKey(),entry.getValue() + lastOverallScoreValueForPlayer);
             }
-            System.out.println("updated playerToOverall: "+ updatedPlayerToOverallScoreMap);
             game.setPlayerToOverallScoreMap(updatedPlayerToOverallScoreMap);
             gameRepository.save(game);
         }

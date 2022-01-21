@@ -92,7 +92,6 @@ public class RepeatedRoundTasksExecutor implements Runnable, Observer {
 
     @Override
     public void update(GameEvent event) {
-        System.out.println("Subscriber: " + event.getGameId());
         if (event instanceof AllUserGuessedWordEvent) {
             continuePausedThreadExecuter();
         }
