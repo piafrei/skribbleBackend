@@ -9,9 +9,6 @@ import com.montagsmaler.backend.game.actionHandling.actionStrategies.ActionStrat
 import com.montagsmaler.backend.game.actionHandling.actionStrategies.ActionStrategyName;
 import com.montagsmaler.backend.game.GameService;
 import com.montagsmaler.backend.game.gameEvents.EventHandler;
-import com.montagsmaler.backend.userManagement.UserDetailServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -20,16 +17,10 @@ import java.util.Optional;
 @Component
 public class ChatActionStrategy implements ActionStrategy {
     @Resource
-    GameService gameService;
+    private GameService gameService;
 
     @Resource
-    UserDetailServiceImpl userDetailService;
-
-    @Resource
-    EventHandler eventHandler;
-
-    @Autowired
-    private ApplicationEventPublisher applicationEventPublisher;
+    private EventHandler eventHandler;
 
     @Override
     public Optional<ActionResponse> executeAction(Action action) {
@@ -41,13 +32,19 @@ public class ChatActionStrategy implements ActionStrategy {
         }
 
         ChatAction chatAction = (ChatAction) action;
-        boolean isWordCorrect = gameService.checkIsWordCorrect(chatAction.getGameId(), chatAction.getMessage(), chatAction.getUsername());
+        boolean isWordCorrect = checkIsWordCorrect(chatAction);
 
-        boolean allUserGuessedWord = gameService.checkAllUserGuessedWord(chatAction.getGameId());
-        if (isWordCorrect && allUserGuessedWord) {
-            publishAllUserGuessedWordEvent(chatAction.getGameId());
+        if (isWordCorrect) {
+            boolean allUserGuessedWord = gameService.checkAllUserGuessedWord(chatAction.getGameId());
+            if(allUserGuessedWord){
+                publishAllUserGuessedWordEvent(chatAction.getGameId());
+            }
         }
         return Optional.of(new ChatActionResponse(chatAction.getMessage(), chatAction.getUsername(), isWordCorrect));
+    }
+
+    private boolean checkIsWordCorrect(ChatAction chatAction) {
+        return gameService.checkIsWordCorrect(chatAction.getGameId(), chatAction.getMessage(), chatAction.getUsername());
     }
 
     private void publishAllUserGuessedWordEvent(final String gameId) {

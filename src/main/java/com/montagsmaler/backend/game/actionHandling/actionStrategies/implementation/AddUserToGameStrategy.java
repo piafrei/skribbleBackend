@@ -27,16 +27,16 @@ import java.util.stream.Collectors;
 @Component
 public class AddUserToGameStrategy implements ActionStrategy {
     @Resource
-    GameService gameService;
+    private GameService gameService;
 
     @Resource
-    CanvasService canvasService;
+    private CanvasService canvasService;
 
     @Resource
-    UserDetailServiceImpl userDetailService;
+    private UserDetailServiceImpl userDetailService;
 
     @Resource
-    AvatarService avatarService;
+    private AvatarService avatarService;
 
     @Override
     public Optional<ActionResponse> executeAction(Action action) {
@@ -53,7 +53,6 @@ public class AddUserToGameStrategy implements ActionStrategy {
             Optional<GameEntity> gameEntity = gameService.addUserToGame(addUserToGameAction.getGameId(), username);
             if(gameEntity.isPresent()){
                 GameEntity game = gameEntity.get();
-                CanvasDTO canvas = canvasService.getCanvasDTO(game).get();
                 Set<String> players = game.getPlayers();
                 String host = game.getHost();
                 List<GameUserDTO> gameUserList = players.stream().map(player -> {

@@ -6,7 +6,6 @@ import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.Act
 import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.implementation.ClearCanvasActionResponse;
 import com.montagsmaler.backend.game.actionHandling.actionStrategies.ActionStrategy;
 import com.montagsmaler.backend.game.actionHandling.actionStrategies.ActionStrategyName;
-import com.montagsmaler.backend.game.GameService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -15,10 +14,7 @@ import java.util.Optional;
 @Component
 public class ClearCanvasActionStrategy implements ActionStrategy{
     @Resource
-    CanvasService canvasService;
-
-    @Resource
-    GameService gameService;
+    private CanvasService canvasService;
 
     @Override
     public Optional<ActionResponse> executeAction(Action action) {

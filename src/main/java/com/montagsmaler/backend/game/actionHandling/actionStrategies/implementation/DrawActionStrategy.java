@@ -17,7 +17,7 @@ import java.util.Optional;
 @Component
 public class DrawActionStrategy implements ActionStrategy {
     @Resource
-    CanvasService canvasService;
+    private CanvasService canvasService;
 
     @Override
     public Optional<ActionResponse> executeAction(Action action) {
