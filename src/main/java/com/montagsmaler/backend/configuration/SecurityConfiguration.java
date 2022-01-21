@@ -35,6 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/game-websocket-connection").permitAll()
                 .antMatchers("/backend/user/signup").permitAll()
                 .antMatchers("/backend/user/authenticate").permitAll()
+                .antMatchers("/backend/drawColors").permitAll()
                 .anyRequest().authenticated()
                 .and().cors()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
