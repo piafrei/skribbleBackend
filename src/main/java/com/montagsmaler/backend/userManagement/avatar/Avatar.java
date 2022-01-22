@@ -18,7 +18,7 @@ public class Avatar {
 
     public void setToDefaults(){
         name = AvatarToImageConfig.ANANAS.name();
-        imagePath = PATH_TO_IMAGE_FOLDER + AvatarToImageConfig.ANANAS.getAvatarImage();
+        imagePath = AVATAR_ROOT_MAPPING + PATH_TO_IMAGE_FOLDER + AvatarToImageConfig.ANANAS.getAvatarImage();
     }
 
     public String getName() {

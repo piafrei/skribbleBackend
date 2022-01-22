@@ -18,16 +18,6 @@ public class AvatarService {
         return avatarToImageMap;
     }
 
-    public Optional<AvatarToImageConfig> getAvatarConfig(String name){
-        try {
-            AvatarToImageConfig avatarToImageConfig = AvatarToImageConfig.valueOf(name);
-            return Optional.of(avatarToImageConfig);
-        } catch (Exception e) {
-            System.out.println("Invalid avatar name");
-            return Optional.empty();
-        }
-    }
-
     public Avatar getAvatar(String name){
         if(name != null){
             try {
