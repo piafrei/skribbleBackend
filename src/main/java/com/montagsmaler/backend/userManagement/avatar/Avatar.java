@@ -8,15 +8,15 @@ public class Avatar {
     private String name;
     private String imagePath;
 
-    public Avatar() {
+    Avatar() {
     }
 
-    public Avatar(String name, String imagePath) {
+    Avatar(String name, String imagePath) {
         this.name = name;
         this.imagePath = AVATAR_ROOT_MAPPING + PATH_TO_IMAGE_FOLDER + imagePath;
     }
 
-    public void setToDefaults(){
+    void setToDefaults(){
         name = AvatarToImageConfig.ANANAS.name();
         imagePath = AVATAR_ROOT_MAPPING + PATH_TO_IMAGE_FOLDER + AvatarToImageConfig.ANANAS.getAvatarImage();
     }

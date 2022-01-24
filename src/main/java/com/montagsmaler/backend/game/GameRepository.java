@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface GameRepository extends MongoRepository<GameEntity, String> {
     @Query("{'playerToOverallScoreMap.?0':{'$exists': 1}}")
-    GameEntity findByPlayerToOverallScoreMapIsContaining(String username);
+    List<GameEntity> findByPlayerToOverallScoreMapIsContaining(String username);
 }

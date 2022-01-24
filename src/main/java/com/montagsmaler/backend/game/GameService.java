@@ -121,12 +121,8 @@ public class GameService {
         return game.getPlayers().size() - 1;
     }
 
-    public Optional<String> getGameIDByUser(String username) {
-        GameEntity gameEntity = gameRepository.findByPlayerToOverallScoreMapIsContaining(username);
-        if(gameEntity != null){
-            return Optional.of((gameEntity.getGameId()));
-        }
-        return Optional.empty();
+    public List<GameEntity> getGameIDByUser(String username) {
+        return gameRepository.findByPlayerToOverallScoreMapIsContaining(username);
     }
 
     void deleteById(String gameId) {
