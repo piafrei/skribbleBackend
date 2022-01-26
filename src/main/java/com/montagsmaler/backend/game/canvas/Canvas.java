@@ -9,7 +9,7 @@ public class Canvas {
     String canvasId;
     String gameId;
     Pencilweight activePencilweight;
-    Drawcolor drawcolor;
+    String drawcolor;
 
     public String getCanvasId() {
         return canvasId;
@@ -27,11 +27,11 @@ public class Canvas {
         this.activePencilweight = activePencilweight;
     }
 
-    public Drawcolor getDrawcolor() {
+    public String getDrawcolor() {
         return drawcolor;
     }
 
-    public void setDrawcolor(Drawcolor drawcolor) {
+    public void setDrawcolor(String drawcolor) {
         this.drawcolor = drawcolor;
     }
 

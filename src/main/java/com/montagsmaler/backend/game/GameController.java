@@ -4,7 +4,6 @@ import com.montagsmaler.backend.game.actionHandling.actionInput.Action;
 import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.ActionResponse;
 import com.montagsmaler.backend.game.actionHandling.actionStrategies.ActionStrategy;
 import com.montagsmaler.backend.game.actionHandling.actionStrategies.ActionStrategyFactory;
-import com.montagsmaler.backend.game.canvas.Drawcolor;
 import com.montagsmaler.backend.game.gamestatistics.GameStatisticEntity;
 import com.montagsmaler.backend.game.gamestatistics.GameStatisticService;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +16,6 @@ import org.springframework.messaging.handler.annotation.SendTo;
 
 import javax.annotation.Resource;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 public class GameController {
@@ -48,13 +45,6 @@ public class GameController {
         gameService.addUserToGame(newGame,"pia");
         gameService.addUserToGame(newGame,"mia");
         return newGame;
-    }
-
-    @GetMapping(value="/backend/drawColors")
-    public List<String> getValidDrawColors() {
-        return Stream.of(Drawcolor.values())
-                .map(Drawcolor::getHexcode)
-                .collect(Collectors.toList());
     }
 
     @MessageMapping("/game/{gameId}")

@@ -4,10 +4,10 @@ import java.util.List;
 
 public class CanvasDTO {
     Pencilweight activePencilweight;
-    Drawcolor drawcolor;
+    String drawcolor;
     List<PixelDTO> elementList;
 
-    public CanvasDTO(Pencilweight activePencilweight, Drawcolor drawcolor) {
+    public CanvasDTO(Pencilweight activePencilweight, String drawcolor) {
         this.activePencilweight = activePencilweight;
         this.drawcolor = drawcolor;
     }
@@ -20,11 +20,11 @@ public class CanvasDTO {
         this.activePencilweight = activePencilweight;
     }
 
-    public Drawcolor getDrawcolor() {
+    public String getDrawcolor() {
         return drawcolor;
     }
 
-    public void setDrawcolor(Drawcolor drawcolor) {
+    public void setDrawcolor(String drawcolor) {
         this.drawcolor = drawcolor;
     }
 

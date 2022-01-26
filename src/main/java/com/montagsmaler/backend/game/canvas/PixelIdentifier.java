@@ -2,12 +2,12 @@ package com.montagsmaler.backend.game.canvas;
 
 public class PixelIdentifier {
     String canvasId;
-    int yStartPosition;
-    int xStartPosition;
-    int yEndPosition;
-    int xEndPosition;
+    Integer yStartPosition;
+    Integer xStartPosition;
+    Integer yEndPosition;
+    Integer xEndPosition;
 
-    public PixelIdentifier(String canvasId, int xStartPosition, int yStartPosition, int yEndPosition, int xEndPosition) {
+    public PixelIdentifier(String canvasId, Integer xStartPosition, Integer yStartPosition, Integer yEndPosition, Integer xEndPosition) {
         this.canvasId = canvasId;
         this.yStartPosition = yStartPosition;
         this.xStartPosition = xStartPosition;
@@ -23,35 +23,35 @@ public class PixelIdentifier {
         this.canvasId = canvasId;
     }
 
-    public int getyStartPosition() {
+    public Integer getyStartPosition() {
         return yStartPosition;
     }
 
-    public void setyStartPosition(int yStartPosition) {
+    public void setyStartPosition(Integer yStartPosition) {
         this.yStartPosition = yStartPosition;
     }
 
-    public int getxStartPosition() {
+    public Integer getxStartPosition() {
         return xStartPosition;
     }
 
-    public void setxStartPosition(int xStartPosition) {
+    public void setxStartPosition(Integer xStartPosition) {
         this.xStartPosition = xStartPosition;
     }
 
-    public int getyEndPosition() {
+    public Integer getyEndPosition() {
         return yEndPosition;
     }
 
-    public void setyEndPosition(int yEndPosition) {
+    public void setyEndPosition(Integer yEndPosition) {
         this.yEndPosition = yEndPosition;
     }
 
-    public int getxEndPosition() {
+    public Integer getxEndPosition() {
         return xEndPosition;
     }
 
-    public void setxEndPosition(int xEndPosition) {
+    public void setxEndPosition(Integer xEndPosition) {
         this.xEndPosition = xEndPosition;
     }
 
