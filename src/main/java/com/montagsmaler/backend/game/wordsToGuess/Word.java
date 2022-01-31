@@ -6,10 +6,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class Word {
     @Id
-    String id;
-    Category category;
-    Difficulty difficulty;
-    String value;
+    private String id;
+    private Category category;
+    private Difficulty difficulty;
+    private String value;
 
     public String getId() {
         return id;

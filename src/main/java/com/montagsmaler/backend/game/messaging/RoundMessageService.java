@@ -17,7 +17,7 @@ import java.util.Map;
 @Service
 public class RoundMessageService {
     @Resource
-    StompTemplateMessageService messageService;
+    private StompTemplateMessageService messageService;
 
     public void sendRoundStatistics(GameEntity game, Gameround gameround, GameEntity updatedGame, Map<String, Integer> roundPoints,List<RankingDTO> rankingDTOS) {
         messageService.sendScheduledUpdate(game.getGameId(), new RoundStatisticActionResponse(updatedGame.getActiveRound().getRoundNumber(), gameround.getActiveWord().getValue(), roundPoints, rankingDTOS));

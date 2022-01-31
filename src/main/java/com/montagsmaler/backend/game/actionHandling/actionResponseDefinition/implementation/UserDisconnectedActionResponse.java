@@ -7,8 +7,8 @@ import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.Act
 public class UserDisconnectedActionResponse extends ActionResponse {
     private static final ActionResponseType ACTION_RESPONSE_TYPE = ActionResponseType.userDisconnected;
 
-    String username;
-    String host;
+    private String username;
+    private String host;
 
     public UserDisconnectedActionResponse(String username, String host) {
         super(ACTION_RESPONSE_TYPE);

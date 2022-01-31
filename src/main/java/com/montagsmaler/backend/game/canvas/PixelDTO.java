@@ -1,12 +1,12 @@
 package com.montagsmaler.backend.game.canvas;
 
 public class PixelDTO {
-    Pencilweight pencilweight;
-    String drawcolor;
-    Integer yStartPosition;
-    Integer xStartPosition;
-    Integer yEndPosition;
-    Integer xEndPosition;
+    private Pencilweight pencilweight;
+    private String drawcolor;
+    private Integer yStartPosition;
+    private Integer xStartPosition;
+    private Integer yEndPosition;
+    private Integer xEndPosition;
 
     public PixelDTO() {
     }

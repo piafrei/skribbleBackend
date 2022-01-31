@@ -74,7 +74,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
                 userRepository.save(userEntityToUpdate);
             } else {
                 System.out.println("Failed to update");
-                return Optional.of(getErrorFields(userNameAlreadyInUse));
+                return Optional.of(getErrorFields(true));
             }
         }
         return Optional.empty();

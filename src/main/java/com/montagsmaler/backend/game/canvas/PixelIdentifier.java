@@ -1,11 +1,11 @@
 package com.montagsmaler.backend.game.canvas;
 
 public class PixelIdentifier {
-    String canvasId;
-    Integer yStartPosition;
-    Integer xStartPosition;
-    Integer yEndPosition;
-    Integer xEndPosition;
+    private String canvasId;
+    private Integer yStartPosition;
+    private Integer xStartPosition;
+    private Integer yEndPosition;
+    private Integer xEndPosition;
 
     public PixelIdentifier(String canvasId, Integer xStartPosition, Integer yStartPosition, Integer yEndPosition, Integer xEndPosition) {
         this.canvasId = canvasId;

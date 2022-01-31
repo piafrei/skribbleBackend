@@ -10,11 +10,13 @@ import java.util.*;
 
 @Document
 public class GameEntity {
+    private static final int DEFAULT_ROUNDS_PER_GAME = 3;
+
     @Id
     private String gameId;
     private Map<String,Integer> playerToOverallScoreMap = new HashMap<>();
     private String host;
-    private int rounds = 3;
+    private int rounds = DEFAULT_ROUNDS_PER_GAME;
     private Gameround activeRound;
 
     public GameEntity() {
@@ -28,23 +30,11 @@ public class GameEntity {
         this.category = category;
     }
 
-    public Difficulty getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(Difficulty difficulty) {
-        this.difficulty = difficulty;
-    }
-
     private Category category;
     private Difficulty difficulty;
 
     public int getRounds() {
         return rounds;
-    }
-
-    public void setRounds(int rounds) {
-        this.rounds = rounds;
     }
 
     public Gameround getActiveRound() {

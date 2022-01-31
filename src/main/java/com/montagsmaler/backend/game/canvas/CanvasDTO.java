@@ -3,11 +3,11 @@ package com.montagsmaler.backend.game.canvas;
 import java.util.List;
 
 public class CanvasDTO {
-    Pencilweight activePencilweight;
-    String drawcolor;
-    List<PixelDTO> elementList;
+    private Pencilweight activePencilweight;
+    private String drawcolor;
+    private List<PixelDTO> elementList;
 
-    public CanvasDTO(Pencilweight activePencilweight, String drawcolor) {
+    CanvasDTO(Pencilweight activePencilweight, String drawcolor) {
         this.activePencilweight = activePencilweight;
         this.drawcolor = drawcolor;
     }

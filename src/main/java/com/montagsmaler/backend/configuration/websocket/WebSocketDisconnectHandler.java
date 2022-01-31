@@ -4,7 +4,7 @@ import com.montagsmaler.backend.game.GameEntity;
 import com.montagsmaler.backend.game.GameService;
 import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.implementation.UserDisconnectedActionResponse;
 import com.montagsmaler.backend.game.gameEvents.EventHandler;
-import com.montagsmaler.backend.game.gameEvents.UserDisconnectedEvent;
+import com.montagsmaler.backend.game.gameEvents.implementation.UserDisconnectedEvent;
 import com.montagsmaler.backend.game.messaging.StompTemplateMessageService;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.EventListener;
@@ -15,7 +15,6 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import javax.annotation.Resource;
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class WebSocketDisconnectHandler implements ApplicationListener<SessionDisconnectEvent> {

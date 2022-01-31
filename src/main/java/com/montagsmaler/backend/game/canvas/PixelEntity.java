@@ -5,10 +5,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class PixelEntity {
-    String drawcolor;
-    Pencilweight pencilweight;
+    private String drawcolor;
+    private Pencilweight pencilweight;
     @Id
-    PixelIdentifier pixelIdentifier;
+    private PixelIdentifier pixelIdentifier;
 
     public PixelEntity(PixelDTO pixelDTO, String canvasId){
         this.drawcolor = pixelDTO.getDrawcolor();

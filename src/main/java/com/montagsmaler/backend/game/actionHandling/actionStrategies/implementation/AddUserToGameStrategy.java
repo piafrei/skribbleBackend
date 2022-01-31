@@ -40,15 +40,15 @@ public class AddUserToGameStrategy implements ActionStrategy {
 
     @Override
     public Optional<ActionResponse> executeAction(Action action) {
-        System.out.print("inside addUserToGame action");
-
         if (!(action instanceof AddUserToGameAction)){
             System.out.println("Wrong action type");
             return Optional.empty();
         }
+
         AddUserToGameAction addUserToGameAction = (AddUserToGameAction) action;
         String username = addUserToGameAction.getUsername();
         UserEntity userEntity = userDetailService.getUserEntityByName(username);
+
         if(userEntity != null){
             Optional<GameEntity> gameEntity = gameService.addUserToGame(addUserToGameAction.getGameId(), username);
             if(gameEntity.isPresent()){

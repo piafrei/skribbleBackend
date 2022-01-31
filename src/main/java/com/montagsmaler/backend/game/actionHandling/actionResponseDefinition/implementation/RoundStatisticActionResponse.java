@@ -10,10 +10,10 @@ import java.util.Map;
 public class RoundStatisticActionResponse extends ActionResponse {
     private static final ActionResponseType ACTION_RESPONSE_TYPE = ActionResponseType.roundStatistics;
 
-    int roundNumber;
-    String correctWord;
-    Map<String, Integer> roundPoints;
-    List<RankingDTO> overallRanking;
+    private int roundNumber;
+    private String correctWord;
+    private Map<String, Integer> roundPoints;
+    private List<RankingDTO> overallRanking;
 
     public RoundStatisticActionResponse(int roundNumber, String correctWord, Map<String, Integer> roundPoints, List<RankingDTO> overallRanking) {
         super(ACTION_RESPONSE_TYPE);

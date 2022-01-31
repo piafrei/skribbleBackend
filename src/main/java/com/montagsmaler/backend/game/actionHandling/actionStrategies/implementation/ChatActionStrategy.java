@@ -1,6 +1,6 @@
 package com.montagsmaler.backend.game.actionHandling.actionStrategies.implementation;
 
-import com.montagsmaler.backend.game.gameEvents.AllUserGuessedWordEvent;
+import com.montagsmaler.backend.game.gameEvents.implementation.AllUserGuessedWordEvent;
 import com.montagsmaler.backend.game.actionHandling.actionInput.Action;
 import com.montagsmaler.backend.game.actionHandling.actionInput.implementation.ChatAction;
 import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.ActionResponse;
@@ -24,8 +24,6 @@ public class ChatActionStrategy implements ActionStrategy {
 
     @Override
     public Optional<ActionResponse> executeAction(Action action) {
-        System.out.print("inside chat action");
-
         if (!(action instanceof ChatAction)) {
             System.out.println("Wrong action type");
             return Optional.empty();

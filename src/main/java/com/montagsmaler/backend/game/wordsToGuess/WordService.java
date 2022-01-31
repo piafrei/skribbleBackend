@@ -1,21 +1,18 @@
 package com.montagsmaler.backend.game.wordsToGuess;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class WordService {
     @Resource
-    WordRepository wordRepository;
+    private WordRepository wordRepository;
 
-    public void updateWords(List<Word> wordList) {
+    void updateWords(List<Word> wordList) {
         wordRepository.saveAll(wordList);
     }
 

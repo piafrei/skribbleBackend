@@ -6,32 +6,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CanvasService {
     @Resource
-    PixelRepository pixelRepository;
+    private PixelRepository pixelRepository;
 
     @Resource
-    CanvasRepository canvasRepository;
+    private CanvasRepository canvasRepository;
 
-    @Resource
-    GameService gameService;
-
-    public Optional<CanvasDTO> getCanvasDTO(GameEntity gameEntity){
-        Canvas canvas = canvasRepository.findByGameId(gameEntity.getGameId());
-        if (canvas != null){
-            CanvasDTO canvasDTO = new CanvasDTO(canvas.getActivePencilweight(), canvas.getDrawcolor());
-            List<PixelDTO> canvasPixelEntity = pixelRepository.getByPixelIdentifier_CanvasId(canvas.getCanvasId());
-            if(!CollectionUtils.isEmpty(canvasPixelEntity)){
-                canvasDTO.setElementList(canvasPixelEntity);
-            }
-            return Optional.of(canvasDTO);
-        }
-        return Optional.empty();
-    }
 
     public String getCanvasIdByGameId(String gameId){
         Canvas canvas = canvasRepository.findByGameId(gameId);

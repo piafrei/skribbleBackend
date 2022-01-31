@@ -1,6 +1,5 @@
 package com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.implementation;
 
-import com.montagsmaler.backend.game.datatransferObjects.GameIntermediateStatusDTO;
 import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.ActionResponse;
 import com.montagsmaler.backend.game.actionHandling.actionResponseDefinition.ActionResponseType;
 import com.montagsmaler.backend.game.datatransferObjects.GameUserDTO;
@@ -12,11 +11,9 @@ public class UserJoinedActionResponse extends ActionResponse {
 
     private boolean hasGameStarted;
     private List<GameUserDTO> allUser;
-    private List<GameUserDTO> gameOwner;
 
     public UserJoinedActionResponse(List<GameUserDTO> allUser, boolean hasGameStarted) {
         super(ACTION_RESPONSE_TYPE);
-        this.allUser = allUser;
         this.allUser = allUser;
         this.hasGameStarted = hasGameStarted;
     }

@@ -10,7 +10,7 @@ import java.util.List;
 @RequestMapping("/words")
 public class WordController {
     @Resource
-    WordService wordService;
+    private WordService wordService;
 
     @PostMapping
     public ResponseEntity updateWords(@RequestBody List<Word> wordList) {

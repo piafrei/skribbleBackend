@@ -1,8 +1,5 @@
 package com.montagsmaler.backend.game.gamestatistics;
 
-import com.montagsmaler.backend.game.Gameround;
-import com.montagsmaler.backend.game.wordsToGuess.Category;
-import com.montagsmaler.backend.game.wordsToGuess.Difficulty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 

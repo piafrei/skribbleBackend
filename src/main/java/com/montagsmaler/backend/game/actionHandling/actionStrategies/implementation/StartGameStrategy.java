@@ -16,8 +16,6 @@ public class StartGameStrategy implements ActionStrategy {
 
     @Override
     public Optional<ActionResponse> executeAction(Action action) {
-        System.out.print("inside start game action");
-
         if (!(action instanceof StartGameAction)){
             System.out.println("Wrong action type");
             return Optional.empty();

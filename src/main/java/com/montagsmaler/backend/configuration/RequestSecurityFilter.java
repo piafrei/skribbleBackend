@@ -18,6 +18,8 @@ import java.io.IOException;
 
 @Component
 public class RequestSecurityFilter extends OncePerRequestFilter {
+    public static final String AUTHORIZATION = "Authorization";
+    public static final String BEARER_ = "Bearer ";
     @Resource
     @Lazy
     private UserDetailServiceImpl userDetailService;
@@ -28,13 +30,13 @@ public class RequestSecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws IOException, ServletException {
 
-        final String authorizationHeader = httpServletRequest.getHeader("Authorization");
+        final String authorizationHeader = httpServletRequest.getHeader(AUTHORIZATION);
         System.out.println(authorizationHeader);
 
         String username = null;
         String jwt = null;
 
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+        if (authorizationHeader != null && authorizationHeader.startsWith(BEARER_)) {
             jwt = authorizationHeader.substring(7);
             username = jwtService.extractUsername(jwt);
         }

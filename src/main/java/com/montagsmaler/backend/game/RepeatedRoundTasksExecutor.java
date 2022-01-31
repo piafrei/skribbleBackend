@@ -4,6 +4,8 @@ import com.montagsmaler.backend.game.gameEvents.*;
 import com.montagsmaler.backend.game.datatransferObjects.GameUserDTO;
 import com.montagsmaler.backend.game.datatransferObjects.RankingDTO;
 import com.montagsmaler.backend.game.gameEvents.Observer;
+import com.montagsmaler.backend.game.gameEvents.implementation.AllUserGuessedWordEvent;
+import com.montagsmaler.backend.game.gameEvents.implementation.UserDisconnectedEvent;
 import com.montagsmaler.backend.game.messaging.RoundMessageService;
 import com.montagsmaler.backend.helper.SpringContext;
 import com.montagsmaler.backend.userManagement.UserDetailServiceImpl;
@@ -49,7 +51,7 @@ public class RepeatedRoundTasksExecutor implements Runnable, Observer {
                 int currentRound = 1;
 
                 while (currentRound <= game.getRounds()) {
-                    //falls ein user disconnected, verändert sich die for loop dynamisch
+                    //falls ein user disconnected, verändert sich die for loop size dynamisch, daher kein for each
                     for (int i = 0; i < playersList.size(); i++) {
                         currentDrawer = playersList.get(i);
                         startRoundForPlayer(game, currentRound);

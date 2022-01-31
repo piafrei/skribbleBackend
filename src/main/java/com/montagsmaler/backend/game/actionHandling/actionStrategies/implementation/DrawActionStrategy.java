@@ -20,8 +20,6 @@ public class DrawActionStrategy implements ActionStrategy {
 
     @Override
     public Optional<ActionResponse> executeAction(Action action) {
-        System.out.print("inside draw action");
-
         if (!(action instanceof DrawAction)){
             System.out.println("Wrong action type");
             return Optional.empty();

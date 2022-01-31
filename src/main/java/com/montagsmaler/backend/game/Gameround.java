@@ -4,12 +4,11 @@ import com.montagsmaler.backend.game.wordsToGuess.Word;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class Gameround {
-    int roundNumber;
-    String drawer;
-    Word activeWord;
+    private int roundNumber;
+    private String drawer;
+    private Word activeWord;
     private List<String> rightGuessedUser = new ArrayList<String>();
 
     public int getRoundNumber() {
@@ -18,10 +17,6 @@ public class Gameround {
 
     public void setRoundNumber(int roundNumber) {
         this.roundNumber = roundNumber;
-    }
-
-    public void setRightGuessedUser(List<String> rightGuessedUser) {
-        this.rightGuessedUser = rightGuessedUser;
     }
 
     public String getDrawer() {

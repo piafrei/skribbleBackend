@@ -46,15 +46,14 @@ public class UserController {
             userDetailService.createUser(user);
             return status(CREATED).build();
         }
-        ArrayList<String> errorFields = userDetailService.getErrorFields(userNameAlreadyInUse);
+        ArrayList<String> errorFields = userDetailService.getErrorFields(true);
         return status(BAD_REQUEST).body(new ValidationError(errorFields));
     }
 
 
     @PostMapping(value="/update")
     public ResponseEntity updateUser(@RequestBody UserUpdateDTO user) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
+        String userName = gerUsernameFromContext();
         Optional<ArrayList<String>> errorFields = userDetailService.updateUserDetails(user, userName);
         if(!errorFields.isPresent()){
             String newUserName = user.getBenutzername() == null ? userName : user.getBenutzername();
@@ -65,8 +64,7 @@ public class UserController {
 
     @GetMapping(value="/details")
     public UserResponseDTO getUserDetails() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
+        String userName = gerUsernameFromContext();
         Optional<UserResponseDTO> user = userDetailService.getUserByName(userName);
         if(user.isPresent()){
             return user.get();
@@ -87,6 +85,11 @@ public class UserController {
         }
 
         return ResponseEntity.ok(prepareAuthenticationResponse(authRequest.getUserName()));
+    }
+
+    private String gerUsernameFromContext() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
     }
 
     private AuthenticationResponse prepareAuthenticationResponse(String userName) {

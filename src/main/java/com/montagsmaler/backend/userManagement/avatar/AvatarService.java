@@ -10,7 +10,7 @@ import java.util.Optional;
 @Service
 public class AvatarService {
 
-    public Map<String,String> getAvatarToImageMap(String baseImagePath){
+    Map<String,String> getAvatarToImageMap(String baseImagePath){
         Map<String, String> avatarToImageMap = new HashMap<>();
         for (AvatarToImageConfig config : AvatarToImageConfig.values()) {
             avatarToImageMap.put(config.name(), baseImagePath + config.avatarImage);
@@ -30,7 +30,7 @@ public class AvatarService {
         return getDefaultAvatar();
     }
 
-    public Avatar getDefaultAvatar(){
+    private Avatar getDefaultAvatar(){
         Avatar avatar = new Avatar();
         avatar.setToDefaults();
         return avatar;
