@@ -61,8 +61,10 @@ public class GameService {
             GameEntity game = gameEntity.get();
             Gameround activeRound = game.getActiveRound();
             if(activeRound != null && guessedWordMatchesActiveWord(message, activeRound)){
-                activeRound.addRightGuessedUser(username);
-                gameRepository.save(game);
+                if(activeRound.userHasNotGuessedRightYet(username)){
+                    activeRound.addRightGuessedUser(username);
+                    gameRepository.save(game);
+                }
                 return true;
             }
 

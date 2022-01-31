@@ -46,4 +46,8 @@ public class Gameround {
     public void removeUser(String username){
         this.rightGuessedUser.remove(username);
     }
+
+    public boolean userHasNotGuessedRightYet(String username) {
+        return !this.rightGuessedUser.contains(username);
+    }
 }
