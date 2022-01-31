@@ -1,0 +1,327 @@
+{
+	"info": {
+		"_postman_id": "6ab276c6-aa80-44ce-9e71-55109f5cd012",
+		"name": "Skribble-Backend-Final",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "editUserDetails",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGFsaSIsImV4cCI6MTY0MTE2MzIwMiwiaWF0IjoxNjQxMTI3MjAyfQ.ZNixBqN063GD8U78PnSZrG4xmQo2SlmBxRTGlLiV0gU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"avatar\": \"PIZZA\"\n}\t"
+						},
+						"url": {
+							"raw": "https://p-frei.de/backend/user/update",
+							"protocol": "https",
+							"host": [
+								"p-frei",
+								"de"
+							],
+							"path": [
+								"backend",
+								"user",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "authenticate",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userName\":\"maia\",\n\t\"password\":\"aip\"\n}"
+						},
+						"url": {
+							"raw": "https://p-frei.de/backend/user/authenticate",
+							"protocol": "https",
+							"host": [
+								"p-frei",
+								"de"
+							],
+							"path": [
+								"backend",
+								"user",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signup",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userName\":\"lia\",\n\t\"password\":\"aip\",\n    \"avatar\":\"BURGER\"\n}"
+						},
+						"url": {
+							"raw": "https://p-frei.de/backend/user/signup",
+							"protocol": "https",
+							"host": [
+								"p-frei",
+								"de"
+							],
+							"path": [
+								"backend",
+								"user",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "userDetails",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGFsaSIsImV4cCI6MTY0MTE2MzM3MywiaWF0IjoxNjQxMTI3MzczfQ.ejOQrvSoHSCw_-mgyOivB1KBycgKMiGMlwLDGXG_N80",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://p-frei.de/backend/user/details",
+							"protocol": "https",
+							"host": [
+								"p-frei",
+								"de"
+							],
+							"path": [
+								"backend",
+								"user",
+								"details"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Words",
+			"item": [
+				{
+					"name": "updateWords",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"category\":\"ESSEN\",\r\n        \"difficulty\": \"LEICHT\",\r\n        \"value\":\"brot\"\r\n    },\r\n    {\r\n        \"category\":\"ESSEN\",\r\n        \"difficulty\": \"LEICHT\",\r\n        \"value\":\"apfel\"\r\n    },\r\n    {\r\n        \"category\":\"ESSEN\",\r\n        \"difficulty\": \"LEICHT\",\r\n        \"value\":\"banane\"\r\n    },\r\n    {\r\n        \"category\":\"ESSEN\",\r\n        \"difficulty\": \"LEICHT\",\r\n        \"value\":\"müsli\"\r\n    },\r\n    {\r\n        \"category\":\"ESSEN\",\r\n        \"difficulty\": \"LEICHT\",\r\n        \"value\":\"toast\"\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://p-frei.de/words",
+							"protocol": "https",
+							"host": [
+								"p-frei",
+								"de"
+							],
+							"path": [
+								"words"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "createGame",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwaWEiLCJleHAiOjE2NDIzODcwMTIsImlhdCI6MTY0MjM1MTAxMn0.V6NJGyJcalM1udRBB-jOtKlQuRICGIrkNNZ-PN8sIH0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8085/backend/game",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"backend",
+						"game"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAvatar",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://p-frei.de/avatar/image/ananas.jpg",
+					"protocol": "https",
+					"host": [
+						"p-frei",
+						"de"
+					],
+					"path": [
+						"avatar",
+						"image",
+						"ananas.jpg"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllAvatars",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://p-frei.de/avatar",
+					"protocol": "https",
+					"host": [
+						"p-frei",
+						"de"
+					],
+					"path": [
+						"avatar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "checkAuth",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwaWEiLCJleHAiOjE2NDExMTQyNzMsImlhdCI6MTY0MTA3ODI3M30.GZI82Sm_293ktqo-nbwH0jnlYHNwu5BgpEmMn175Pt4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://p-frei.de/checkAuth",
+					"protocol": "https",
+					"host": [
+						"p-frei",
+						"de"
+					],
+					"path": [
+						"checkAuth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "gameStatistics",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwaWEiLCJleHAiOjE2NDE1MjUyMTQsImlhdCI6MTY0MTQ4OTIxNH0.ZA19rLAOUbg1Klm9v3qLZbp8niXwCUhQWUy6oP4nbTU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://p-frei.de/gameStatistic",
+					"protocol": "https",
+					"host": [
+						"p-frei",
+						"de"
+					],
+					"path": [
+						"gameStatistic"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

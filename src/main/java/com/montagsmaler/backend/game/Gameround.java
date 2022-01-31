@@ -47,7 +47,7 @@ public class Gameround {
         this.rightGuessedUser.remove(username);
     }
 
-    public boolean userHasNotGuessedRightYet(String username) {
-        return !this.rightGuessedUser.contains(username);
+    public boolean userIsAllowedToGuess(String username) {
+        return !this.drawer.equals(username) && !this.rightGuessedUser.contains(username);
     }
 }
